@@ -3,6 +3,10 @@ const theme = {
     white: "#ffffff",
     primary: "#000000",
     secondary: "#EDEEF0",
+    pastelGreen: "#B4EECD",
+    pastelYellow: "#FAECA7",
+    pastelOrange: "#F6D3AE",
+    pastelPurple: "#DDC6E7",
   },
   fontSizes: {
     base: 14,

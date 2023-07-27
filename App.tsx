@@ -1,5 +1,5 @@
 import { Text } from "react-native";
-import { Main } from "./src/components/Main";
+import { Main } from "./src/pages/Main";
 import { useFonts } from "expo-font";
 
 export default function App() {

@@ -1,0 +1,14 @@
+# OSX
+#
+.DS_Store
+
+# Android/IntelliJ
+#
+build/
+.idea
+.gradle
+*.iml
+*.hprof
+
+# Bundle artifacts
+*.jsbundle

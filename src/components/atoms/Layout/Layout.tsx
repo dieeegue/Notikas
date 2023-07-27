@@ -8,7 +8,9 @@ export const Layout = ({ children }: any) => {
 
 const styles = StyleSheet.create({
   itemContainer: {
+    display: "flex",
     marginTop: Constants.statusBarHeight,
     padding: 20,
+    flex: 1,
   },
 });
