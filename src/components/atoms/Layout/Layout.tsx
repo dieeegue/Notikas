@@ -9,8 +9,10 @@ export const Layout = ({ children }: any) => {
 const styles = StyleSheet.create({
   itemContainer: {
     display: "flex",
+    flexDirection: "column",
     marginTop: Constants.statusBarHeight,
-    padding: 20,
-    flex: 1,
+    paddingTop: 20,
+    paddingHorizontal: 20,
+    height: '100%'
   },
 });

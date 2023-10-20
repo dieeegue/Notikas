@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Layout } from "../components/atoms/Layout/Layout";
 import { Texto } from "../components/atoms/Texto/Texto";
 import { View, StyleSheet, Pressable } from "react-native";
@@ -11,27 +11,28 @@ import { ChipList } from "../components/molecules/ChipList/ChipList";
 import { CurrentDate } from "../components/atoms/CurrentDate/CurrentDate";
 import { NoteList } from "../components/molecules/NoteList/NoteList";
 import { StatusBar } from "expo-status-bar";
+import * as SQLite from 'expo-sqlite'
 
 const chips: Chip[] = [
   {
     backgroundColor: "pastelGreen",
-    text: "Juegos",
+    text: "Juegos 🎮",
   },
   {
     backgroundColor: "pastelYellow",
-    text: "Música",
+    text: "Música 🎸",
   },
   {
     backgroundColor: "pastelOrange",
-    text: "Amor",
+    text: "Amor ♥️",
   },
   {
     backgroundColor: "pastelPurple",
-    text: "Tareas",
+    text: "Tareas ✏️",
   },
   {
     backgroundColor: "pastelGreen",
-    text: "Que pasa tiesooo",
+    text: "Otra cosa 💀",
   },
 ];
 const notes: Note[] = [
@@ -61,14 +62,23 @@ const notes: Note[] = [
   },
 ];
 
+const db = SQLite.openDatabase('db.notikasDB')
+
 export const Main = () => {
-  useEffect(() => {}, []);
+  const [dbnotes, setDbnotes] = useState([]);
+  
+  useEffect(() => {
+    db.transaction(tx => {
+      // TODO es de tipo text pero realmente es un toISOString (concretamente un ISO8601)
+      tx.executeSql('CREATE TABLE IF NOT EXISTS notes (id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT, content TEXT, preview TEXT, createdAt TEXT)')
+    })
+  }, []);
 
   return (
     <>
       <StatusBar style="auto" />
       <Layout>
-        <View style={{ flex: 1 }}>
+        <View style={styles.container}>
           <View style={styles.headerContainer}>
             <View style={styles.headerTitle}>
               <CurrentDate />
@@ -103,6 +113,7 @@ const styles = StyleSheet.create({
   container: {
     display: "flex",
     flexDirection: "column",
+    height: '100%'
   },
   headerTitle: {
     display: "flex",
