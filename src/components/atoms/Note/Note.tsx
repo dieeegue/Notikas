@@ -5,17 +5,19 @@ import { Texto } from "../Texto/Texto";
 
 export type Note = {
   title: string;
-  notePreview: string;
+  content: string;
+  preview: string;
+  createdAt: string;
 };
 
-export const Note: React.FC<Note> = ({ title, notePreview }) => {
+export const Note: React.FC<Note> = ({ title, preview }) => {
   return (
     <View style={styles.container}>
       <View style={styles.content}>
         <Texto estilo="montserratBold" size="medium">
           {title}
         </Texto>
-        <Texto>{notePreview}</Texto>
+        <Texto>{preview}</Texto>
       </View>
     </View>
   );

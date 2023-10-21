@@ -8,11 +8,13 @@ type Props = {
 
 type ItemProps = {
   title: string;
-  notePreview: string;
+  content: string;
+  preview: string;
+  createdAt: string;
 };
 
-const Item = ({ title, notePreview }: ItemProps) => (
-  <Note title={title} notePreview={notePreview} />
+const Item = ({ title, preview, content, createdAt }: ItemProps) => (
+  <Note title={title} preview={preview} content={content} createdAt={createdAt} />
 );
 
 export const NoteList: React.FC<Props> = ({ data }) => {
@@ -28,7 +30,7 @@ export const NoteList: React.FC<Props> = ({ data }) => {
         data={data}
         overScrollMode="never"
         renderItem={({ item }) => (
-          <Item title={item.title} notePreview={item.notePreview} />
+          <Item title={item.title} preview={item.preview} content={item.content} createdAt={item.createdAt} />
         )}
       />
     </View>

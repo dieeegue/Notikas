@@ -12,6 +12,9 @@ import { CurrentDate } from "../components/atoms/CurrentDate/CurrentDate";
 import { NoteList } from "../components/molecules/NoteList/NoteList";
 import { StatusBar } from "expo-status-bar";
 import * as SQLite from 'expo-sqlite'
+import { Logs } from 'expo'
+
+Logs.enableExpoCliLogging()
 
 const chips: Chip[] = [
   {
@@ -35,44 +38,50 @@ const chips: Chip[] = [
     text: "Otra cosa 💀",
   },
 ];
-const notes: Note[] = [
-  {
-    title: "Una nota maravillosa",
-    notePreview: "Con una descripción no menos encantadora",
-  },
-  {
-    title: "Otra nota maravillosa",
-    notePreview: "Con una descripción no menos encantadora",
-  },
-  {
-    title: "Una nota totalmente única",
-    notePreview: "Con una descripción no menos encantadora",
-  },
-  {
-    title: "Una increible nota",
-    notePreview: "Con una descripción no menos encantadora",
-  },
-  {
-    title: "Una nota sin igual",
-    notePreview: "Con una descripción no menos encantadora",
-  },
-  {
-    title: "Una nota maravillosa",
-    notePreview: "Con una descripción no menos encantadora",
-  },
-];
-
-const db = SQLite.openDatabase('db.notikasDB')
 
 export const Main = () => {
-  const [dbnotes, setDbnotes] = useState([]);
+  const [notesDB, setNotesDB] = useState<Note[] | undefined>(undefined);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [hasError, setHasError] = useState<boolean>(false);
   
+  const db = SQLite.openDatabase('db.notikasDB')
+
   useEffect(() => {
+      db.transaction(tx => {
+        tx.executeSql('CREATE TABLE IF NOT EXISTS notes (id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT, content TEXT, preview TEXT, createdAt TEXT);')
+      })
+      db.transaction(tx => {
+        tx.executeSql('SELECT * FROM notes;', [], 
+        (sqlTransaction, resultSet) => {
+          setNotesDB(resultSet.rows._array);
+          setIsLoading(false);
+        },
+        (error) => {
+          setHasError(true)
+        }
+      )
+      })
+  }, [notesDB]);
+
+
+  const handlePressAdd = () => {
     db.transaction(tx => {
-      // TODO es de tipo text pero realmente es un toISOString (concretamente un ISO8601)
-      tx.executeSql('CREATE TABLE IF NOT EXISTS notes (id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT, content TEXT, preview TEXT, createdAt TEXT)')
+        tx.executeSql('INSERT INTO notes (title, preview, content, createdAt) values (?, ?, ?, ?);', 
+        ['title', 'preview', 'content', 'createdAt'])
     })
-  }, []);
+  }
+
+  if (isLoading) {
+    return <Layout>
+      <Texto>Loading...</Texto>
+    </Layout>
+  }
+
+  if (hasError) {
+    return <Layout>
+      <Texto>An error has occurred while trying to retrieve data from the database.</Texto>
+    </Layout>
+  }
 
   return (
     <>
@@ -90,6 +99,7 @@ export const Main = () => {
               <Pressable
                 android_ripple={{ color: theme.colors.primary }}
                 style={styles.menuButton}
+                onPress={handlePressAdd}
               >
                 <MaterialIcons name="add" size={23} />
               </Pressable>
@@ -102,7 +112,7 @@ export const Main = () => {
             </View>
           </View>
           <ChipList data={chips} />
-          <NoteList data={notes} />
+          <NoteList data={notesDB} />
         </View>
       </Layout>
     </>
