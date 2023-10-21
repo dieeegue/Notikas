@@ -11,8 +11,8 @@ const styles = StyleSheet.create({
     display: "flex",
     flexDirection: "column",
     marginTop: Constants.statusBarHeight,
-    paddingTop: 20,
-    paddingHorizontal: 20,
+    paddingTop: 30,
+    paddingHorizontal: 25,
     height: '100%'
   },
 });
