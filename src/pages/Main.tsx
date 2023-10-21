@@ -71,6 +71,12 @@ export const Main = () => {
     })
   }
 
+  const handlePressMenu = () => {
+    db.transaction(tx => {
+      tx.executeSql('DELETE FROM notes')
+    })
+  }
+
   if (isLoading) {
     return <Layout>
       <Texto>Loading...</Texto>
@@ -106,6 +112,7 @@ export const Main = () => {
               <Pressable
                 android_ripple={{ color: theme.colors.primary }}
                 style={styles.menuButton}
+                onPress={handlePressMenu}
               >
                 <Ionicons name="menu" size={23} />
               </Pressable>
