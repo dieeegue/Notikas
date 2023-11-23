@@ -1,6 +1,10 @@
 import { Text } from "react-native";
-import { Main } from "./src/pages/Main";
+import { Notes } from "./src/screens/Notes";
 import { useFonts } from "expo-font";
+import { NavigationContainer } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { AddNote } from "./src/screens/AddNote";
+import { RootStackParamList } from "./type";
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -14,5 +18,22 @@ export default function App() {
     return <Text>Cargando...</Text>;
   }
 
-  return <Main />;
+  const Stack = createNativeStackNavigator<RootStackParamList>();
+
+  return (
+    <NavigationContainer>
+      <Stack.Navigator initialRouteName="Notes">
+        <Stack.Screen
+          name="Notes"
+          component={Notes}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="AddNote"
+          component={AddNote}
+          options={{ headerShown: false }}
+        />
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
 }

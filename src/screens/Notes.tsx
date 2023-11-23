@@ -14,6 +14,7 @@ import { NoteList } from "../modules/notes/_components/NoteList/NoteList";
 import { Note } from "../modules/notes/_components/Note/Note";
 import { CurrentDate } from "../modules/notes/_components/CurrentDate/CurrentDate";
 import { DatabaseService } from "../database/Database";
+import { RootStackNavigationProp } from "../../type";
 
 Logs.enableExpoCliLogging();
 
@@ -40,7 +41,7 @@ const chips: Chip[] = [
   },
 ];
 
-export const Main = () => {
+export const Notes = ({ navigation }: RootStackNavigationProp) => {
   const [notes, setNotes] = useState<Note[] | undefined>(undefined);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [hasError, setHasError] = useState<boolean>(false);
@@ -76,16 +77,17 @@ export const Main = () => {
   };
 
   const handlePressAdd = () => {
-    databaseService.query(
-      "INSERT INTO notes (title, preview, content, createdAt) values (?, ?, ?, ?);",
-      [
-        "Una nota cualquiera 🤍",
-        "Y esta una vista previa cualquiera también jeje",
-        "El contenido",
-        "La fecha de creacion",
-      ]
-    );
-    loadNotes();
+    // databaseService.query(
+    //   "INSERT INTO notes (title, preview, content, createdAt) values (?, ?, ?, ?);",
+    //   [
+    //     "Una nota cualquiera 🤍",
+    //     "Y esta una vista previa cualquiera también jeje",
+    //     "El contenido",
+    //     "La fecha de creacion",
+    //   ]
+    // );
+    // loadNotes();
+    navigation.navigate("AddNote");
   };
 
   const handlePressMenu = () => {
@@ -133,10 +135,14 @@ export const Main = () => {
               >
                 <Pressable
                   android_ripple={{ color: theme.colors.primary }}
-                  style={styles.menuButton}
+                  style={styles.addButton}
                   onPress={handlePressAdd}
                 >
-                  <MaterialIcons name="add" size={23} />
+                  <MaterialIcons
+                    name="add"
+                    size={23}
+                    color={theme.colors.white}
+                  />
                 </Pressable>
               </View>
               <View
@@ -180,7 +186,16 @@ const styles = StyleSheet.create({
     alignItems: "center",
     width: 43,
     height: 43,
-    backgroundColor: theme.colors.secondary,
+    backgroundColor: theme.colors.white,
+    borderRadius: 10,
+  },
+  addButton: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    width: 43,
+    height: 43,
+    backgroundColor: theme.colors.primary,
     borderRadius: 10,
   },
   headerContainer: {
@@ -189,7 +204,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     marginBottom: 32,
   },
-  addButton: {
+  addFAB: {
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
