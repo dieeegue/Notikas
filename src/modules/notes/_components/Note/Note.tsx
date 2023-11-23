@@ -1,7 +1,7 @@
 import React from "react";
 import { View, StyleSheet } from "react-native";
-import theme from "../../../theme";
-import { Texto } from "../Texto/Texto";
+import theme from "../../../../theme";
+import { Texto } from "../../../../common/Texto/Texto";
 
 export type Note = {
   title: string;
@@ -28,7 +28,6 @@ const styles = StyleSheet.create({
     backgroundColor: theme.colors.secondary,
     minHeight: 110,
     borderRadius: 15,
-    marginBottom: 20,
   },
   content: {
     display: "flex",

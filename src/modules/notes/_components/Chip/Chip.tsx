@@ -1,7 +1,7 @@
 import React from "react";
 import { View, StyleSheet } from "react-native";
-import { Texto } from "../Texto/Texto";
-import theme, { Color } from "../../../theme";
+import { Texto } from "../../../../common/Texto/Texto";
+import theme, { Color } from "../../../../theme";
 
 type Props = {
   backgroundColor: Color;

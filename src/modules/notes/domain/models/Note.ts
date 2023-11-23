@@ -5,4 +5,3 @@ export interface Note {
   preview: string;
   createdAt: Date;
 }
-

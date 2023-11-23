@@ -1,8 +1,8 @@
 import React from "react";
-import { Color } from "../../../theme";
 import { FlatList, View } from "react-native";
-import { Chip } from "../../atoms/Chip/Chip";
-import { Chip as ChipModel } from "../../../models/Chip";
+import { Chip } from "../Chip/Chip";
+import { Chip as ChipModel } from "../../domain/models/Chip";
+import { Color } from "../../../../theme";
 
 type Props = {
   data: ChipModel[];

@@ -1,20 +1,21 @@
 import React, { useEffect, useState } from "react";
-import { Layout } from "../components/atoms/Layout/Layout";
-import { Texto } from "../components/atoms/Texto/Texto";
+import { Layout } from "../common/Layout/Layout";
+import { Texto } from "../common/Texto/Texto";
 import { View, StyleSheet, Pressable } from "react-native";
 import theme from "../theme";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
-import { Note } from "../components/atoms/Note/Note";
-import { Chip } from "../models/Chip";
-import { ChipList } from "../components/molecules/ChipList/ChipList";
-import { CurrentDate } from "../components/atoms/CurrentDate/CurrentDate";
-import { NoteList } from "../components/molecules/NoteList/NoteList";
+import { Chip } from "../modules/notes/domain/models/Chip";
 import { StatusBar } from "expo-status-bar";
-import * as SQLite from 'expo-sqlite'
-import { Logs } from 'expo'
+import * as SQLite from "expo-sqlite";
+import { Logs } from "expo";
+import { ChipList } from "../modules/notes/_components/ChipList/ChipList";
+import { NoteList } from "../modules/notes/_components/NoteList/NoteList";
+import { Note } from "../modules/notes/_components/Note/Note";
+import { CurrentDate } from "../modules/notes/_components/CurrentDate/CurrentDate";
+import { DatabaseService } from "../database/Database";
 
-Logs.enableExpoCliLogging()
+Logs.enableExpoCliLogging();
 
 const chips: Chip[] = [
   {
@@ -40,53 +41,74 @@ const chips: Chip[] = [
 ];
 
 export const Main = () => {
-  const [notesDB, setNotesDB] = useState<Note[] | undefined>(undefined);
+  const [notes, setNotes] = useState<Note[] | undefined>(undefined);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [hasError, setHasError] = useState<boolean>(false);
-  
-  const db = SQLite.openDatabase('db.notikasDB')
+
+  const databaseService = new DatabaseService(
+    SQLite.openDatabase("db.notikasDB")
+  );
+
+  const onLoad = () => {
+    databaseService.query("CREATE TABLE IF NOT EXISTS notes (?, ?, ?, ?, ?);", [
+      "id INTEGER PRIMARY KEY AUTOINCREMENT",
+      "title TEXT",
+      "content TEXT",
+      "preview TEXT",
+      "createdAt TEXT",
+    ]);
+    loadNotes();
+  };
 
   useEffect(() => {
-      db.transaction(tx => {
-        tx.executeSql('CREATE TABLE IF NOT EXISTS notes (id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT, content TEXT, preview TEXT, createdAt TEXT);')
-      })
-      db.transaction(tx => {
-        tx.executeSql('SELECT * FROM notes;', [], 
-        (sqlTransaction, resultSet) => {
-          setNotesDB(resultSet.rows._array);
-          setIsLoading(false);
-        },
-        (error) => {
-          setHasError(true)
-        }
-      )
-      })
-  }, [notesDB]);
+    try {
+      onLoad();
+      setIsLoading(false);
+    } catch (error) {
+      setHasError(true);
+    }
+  }, []);
 
+  const loadNotes = () => {
+    databaseService.selectAllFromTable("notes", (_, result) => {
+      setNotes(result.rows._array);
+    });
+  };
 
   const handlePressAdd = () => {
-    db.transaction(tx => {
-        tx.executeSql('INSERT INTO notes (title, preview, content, createdAt) values (?, ?, ?, ?);', 
-        ['title', 'preview', 'content', 'createdAt'])
-    })
-  }
+    databaseService.query(
+      "INSERT INTO notes (title, preview, content, createdAt) values (?, ?, ?, ?);",
+      [
+        "Una nota cualquiera 🤍",
+        "Y esta una vista previa cualquiera también jeje",
+        "El contenido",
+        "La fecha de creacion",
+      ]
+    );
+    loadNotes();
+  };
 
   const handlePressMenu = () => {
-    db.transaction(tx => {
-      tx.executeSql('DELETE FROM notes')
-    })
-  }
+    databaseService.query("DELETE FROM notes;", []);
+    loadNotes();
+  };
 
   if (isLoading) {
-    return <Layout>
-      <Texto>Loading...</Texto>
-    </Layout>
+    return (
+      <Layout>
+        <Texto>Loading...</Texto>
+      </Layout>
+    );
   }
 
   if (hasError) {
-    return <Layout>
-      <Texto>An error has occurred while trying to retrieve data from the database.</Texto>
-    </Layout>
+    return (
+      <Layout>
+        <Texto>
+          An error has occurred while trying to retrieve data from the database.
+        </Texto>
+      </Layout>
+    );
   }
 
   return (
@@ -102,24 +124,40 @@ export const Main = () => {
               </Texto>
             </View>
             <View style={styles.buttonsContainer}>
-              <Pressable
-                android_ripple={{ color: theme.colors.primary }}
-                style={styles.menuButton}
-                onPress={handlePressAdd}
+              <View
+                style={{
+                  alignSelf: "center",
+                  borderRadius: 10,
+                  overflow: "hidden",
+                }}
               >
-                <MaterialIcons name="add" size={23} />
-              </Pressable>
-              <Pressable
-                android_ripple={{ color: theme.colors.primary }}
-                style={styles.menuButton}
-                onPress={handlePressMenu}
+                <Pressable
+                  android_ripple={{ color: theme.colors.primary }}
+                  style={styles.menuButton}
+                  onPress={handlePressAdd}
+                >
+                  <MaterialIcons name="add" size={23} />
+                </Pressable>
+              </View>
+              <View
+                style={{
+                  alignSelf: "center",
+                  borderRadius: 10,
+                  overflow: "hidden",
+                }}
               >
-                <Ionicons name="menu" size={23} />
-              </Pressable>
+                <Pressable
+                  android_ripple={{ color: theme.colors.primary }}
+                  style={styles.menuButton}
+                  onPress={handlePressMenu}
+                >
+                  <Ionicons name="menu" size={23} />
+                </Pressable>
+              </View>
             </View>
           </View>
           <ChipList data={chips} />
-          <NoteList data={notesDB} />
+          <NoteList data={notes} />
         </View>
       </Layout>
     </>
@@ -130,7 +168,7 @@ const styles = StyleSheet.create({
   container: {
     display: "flex",
     flexDirection: "column",
-    height: '100%'
+    height: "100%",
   },
   headerTitle: {
     display: "flex",
@@ -143,7 +181,7 @@ const styles = StyleSheet.create({
     width: 43,
     height: 43,
     backgroundColor: theme.colors.secondary,
-    borderRadius: 7,
+    borderRadius: 10,
   },
   headerContainer: {
     display: "flex",

@@ -1,8 +1,8 @@
 import React from "react";
 import { View, StyleSheet } from "react-native";
-import { Texto } from "../Texto/Texto";
 import moment from "moment";
 import "moment/locale/es";
+import { Texto } from "../../../../common/Texto/Texto";
 
 export const CurrentDate = () => {
   return (
