@@ -6,8 +6,11 @@ import Ionicons from '@expo/vector-icons/Ionicons'
 import MaterialIcons from '@expo/vector-icons/MaterialIcons'
 import * as SQLite from 'expo-sqlite'
 import { DatabaseService } from '../../../../database/Database'
+import { useNavigation } from '@react-navigation/native'
+import { RootStackNavigationProp } from '../../../../../type'
 
 export const Header = ({ loadNotes }: { loadNotes: () => void }) => {
+  const navigation = useNavigation<RootStackNavigationProp>()
   const databaseService = new DatabaseService(
     SQLite.openDatabase('db.notikasDB')
   )
@@ -18,17 +21,17 @@ export const Header = ({ loadNotes }: { loadNotes: () => void }) => {
   }
 
   const handlePressAdd = () => {
-    databaseService.query(
-      'INSERT INTO notes (title, preview, content, createdAt) values (?, ?, ?, ?);',
-      [
-        'Una nota cualquiera 🤍',
-        'Y esta una vista previa cualquiera también jeje',
-        'El contenido',
-        'La fecha de creacion',
-      ]
-    )
-    loadNotes()
-    // navigation.navigate("AddNote");
+    // databaseService.query(
+    //   'INSERT INTO notes (title, preview, content, createdAt) values (?, ?, ?, ?);',
+    //   [
+    //     'Una nota cualquiera 🤍',
+    //     'Y esta una vista previa cualquiera también jeje',
+    //     'El contenido',
+    //     'La fecha de creacion',
+    //   ]
+    // )
+    // loadNotes()
+    navigation.navigate('AddNote')
   }
 
   return (
@@ -77,7 +80,10 @@ export const Header = ({ loadNotes }: { loadNotes: () => void }) => {
 const styles = StyleSheet.create({
   headerTitle: {
     display: 'flex',
+    flexDirection: 'row',
     justifyContent: 'flex-start',
+    alignItems: 'center',
+    flexGrow: 1,
   },
   menuButton: {
     display: 'flex',
@@ -101,12 +107,12 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginBottom: 32,
+    marginBottom: theme.spacing.medium,
   },
   buttonsContainer: {
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'center',
-    gap: 8,
+    gap: theme.spacing.xsmall,
   },
 })
