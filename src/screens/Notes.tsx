@@ -9,12 +9,11 @@ import { Logs } from 'expo'
 import { NoteList } from '../modules/notes/_components/NoteList/NoteList'
 import { Note } from '../modules/notes/_components/Note/Note'
 import { DatabaseService } from '../database/Database'
-import { RootStackScreenProps } from '../../type'
-import { Header } from '../modules/notes/_components/Header/Header'
+import { MainHeader } from '../modules/notes/_components/Header/MainHeader'
 
 Logs.enableExpoCliLogging()
 
-export const Notes = ({ navigation }: RootStackScreenProps) => {
+export const Notes = () => {
   const [notes, setNotes] = useState<Note[] | undefined>(undefined)
   const [isLoading, setIsLoading] = useState<boolean>(true)
   const [hasError, setHasError] = useState<boolean>(false)
@@ -74,7 +73,7 @@ export const Notes = ({ navigation }: RootStackScreenProps) => {
       <StatusBar style="auto" />
       <Layout>
         <View style={styles.container}>
-          <Header loadNotes={loadNotes} />
+          <MainHeader loadNotes={loadNotes} />
           <NoteList data={notes} />
         </View>
       </Layout>

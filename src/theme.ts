@@ -34,4 +34,5 @@ const theme = {
 export type Color = keyof typeof theme.colors
 export type FontSize = keyof typeof theme.fontSizes
 export type FontFamily = keyof typeof theme.fonts
+export type Spacing = keyof typeof theme.spacing
 export default theme
