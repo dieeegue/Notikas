@@ -5,11 +5,9 @@ import { View, StyleSheet, Pressable } from "react-native";
 import theme from "../theme";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
-import { Chip } from "../modules/notes/domain/models/Chip";
 import { StatusBar } from "expo-status-bar";
 import * as SQLite from "expo-sqlite";
 import { Logs } from "expo";
-import { ChipList } from "../modules/notes/_components/ChipList/ChipList";
 import { NoteList } from "../modules/notes/_components/NoteList/NoteList";
 import { Note } from "../modules/notes/_components/Note/Note";
 import { CurrentDate } from "../modules/notes/_components/CurrentDate/CurrentDate";
@@ -17,29 +15,6 @@ import { DatabaseService } from "../database/Database";
 import { RootStackNavigationProp } from "../../type";
 
 Logs.enableExpoCliLogging();
-
-const chips: Chip[] = [
-  {
-    backgroundColor: "pastelGreen",
-    text: "Juegos 🎮",
-  },
-  {
-    backgroundColor: "pastelYellow",
-    text: "Música 🎸",
-  },
-  {
-    backgroundColor: "pastelOrange",
-    text: "Amor ♥️",
-  },
-  {
-    backgroundColor: "pastelPurple",
-    text: "Tareas ✏️",
-  },
-  {
-    backgroundColor: "pastelGreen",
-    text: "Otra cosa 💀",
-  },
-];
 
 export const Notes = ({ navigation }: RootStackNavigationProp) => {
   const [notes, setNotes] = useState<Note[] | undefined>(undefined);
@@ -122,7 +97,7 @@ export const Notes = ({ navigation }: RootStackNavigationProp) => {
             <View style={styles.headerTitle}>
               <CurrentDate />
               <Texto estilo="montserratExtraBold" size="heading">
-                Mis notas
+                Notikas.
               </Texto>
             </View>
             <View style={styles.buttonsContainer}>
@@ -162,7 +137,6 @@ export const Notes = ({ navigation }: RootStackNavigationProp) => {
               </View>
             </View>
           </View>
-          <ChipList data={chips} />
           <NoteList data={notes} />
         </View>
       </Layout>
@@ -186,7 +160,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     width: 43,
     height: 43,
-    backgroundColor: theme.colors.white,
+    backgroundColor: theme.colors.secondary,
     borderRadius: 10,
   },
   addButton: {
