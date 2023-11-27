@@ -8,8 +8,7 @@ import { View, StyleSheet, FlatList, ViewStyle, Pressable } from 'react-native'
 import theme, { NoteColors } from '../theme'
 import { FontAwesome } from '@expo/vector-icons'
 import { useState } from 'react'
-import Animated, { FadeIn, ZoomIn } from 'react-native-reanimated'
-import { forceTouchGestureHandlerProps } from 'react-native-gesture-handler/lib/typescript/handlers/ForceTouchGestureHandler'
+import Animated, { ZoomIn } from 'react-native-reanimated'
 
 interface ColorOption {
   color: string
