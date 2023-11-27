@@ -9,6 +9,7 @@ import theme, { NoteColors } from '../theme'
 import { FontAwesome } from '@expo/vector-icons'
 import { useState } from 'react'
 import Animated, { ZoomIn } from 'react-native-reanimated'
+import { Form, Formik, FormikErrors } from 'formik'
 
 interface ColorOption {
   color: string
@@ -81,14 +82,35 @@ export const AddNote = () => {
     return {}
   }
 
+  const checkedButton = (color: NoteColors): ViewStyle => {
+    return {
+      backgroundColor: theme.colors.notes[color],
+      borderRadius: 10,
+      height: 150,
+      width: 150,
+      padding: 30,
+    }
+  }
+
   const handleColorChange = (colorOption: ColorOption) => {
     setSelectedColor(colorOption.value)
   }
 
-  const Item = (colorOption: ColorOption) => (
+  type ItemProps = {
+    colorOption: ColorOption
+    setFieldValue: (
+      field: string,
+      value: any,
+      shouldValidate?: boolean | undefined
+    ) => Promise<void | FormikErrors<FormValues>>
+  }
+  const Item = ({ colorOption, setFieldValue }: ItemProps) => (
     <Pressable
       style={circleInput(colorOption.color)}
-      onPress={() => handleColorChange(colorOption)}
+      onPress={() => {
+        handleColorChange(colorOption)
+        setFieldValue('color', colorOption.value)
+      }}
     >
       <Animated.View
         style={checkedCircle(colorOption)}
@@ -97,46 +119,95 @@ export const AddNote = () => {
     </Pressable>
   )
 
+  interface FormValues {
+    fileCreated: string
+    color: string
+    noteName: string
+  }
+
+  const initialValues: FormValues = {
+    fileCreated: 'note',
+    color: selectedColor,
+    noteName: '',
+  }
+
+  const AnimatedPressable = Animated.createAnimatedComponent(Pressable)
+
   return (
     <>
       <StatusBar style="auto" />
       <Layout>
         <Header />
-        <Texto estilo="montserratBold" marginBottom="medium">
-          ¿Qué deseas crear?
-        </Texto>
-        <View style={styles.buttonContainer}>
-          <Animated.View style={styles.button} entering={ZoomIn.duration(400)}>
-            <View style={styles.buttonContent}>
-              <FontAwesome name="file" size={24} color="black" />
-              <Texto estilo="montserratBold">Una nota</Texto>
-            </View>
-          </Animated.View>
-          <Animated.View style={styles.button} entering={ZoomIn.duration(400)}>
-            <View style={styles.buttonContent}>
-              <FontAwesome name="folder-open" size={30} color="black" />
-              <Texto estilo="montserratBold">Una carpeta</Texto>
-            </View>
-          </Animated.View>
-        </View>
-        <Texto estilo="montserratBold" marginBottom="medium">
-          Elige un color para mostrarla
-        </Texto>
-        <View>
-          <FlatList
-            data={COLOR_OPTIONS}
-            contentContainerStyle={styles.colorPickerContainer}
-            overScrollMode="auto"
-            horizontal={true}
-            showsHorizontalScrollIndicator={false}
-            renderItem={({ item }) => (
-              <Item color={item.color} value={item.value} />
-            )}
-          />
-        </View>
-        <Texto estilo="montserratBold" marginBottom="medium">
-          ¿Cómo la vas a llamar?
-        </Texto>
+        <Formik initialValues={initialValues} onSubmit={() => {}}>
+          {({ setFieldValue, handleSubmit, values }) => (
+            <>
+              <Texto estilo="montserratBold" marginBottom="medium">
+                ¿Qué deseas crear?
+              </Texto>
+              <View style={styles.buttonContainer}>
+                <Pressable onPress={() => setFieldValue('fileCreated', 'note')}>
+                  <Animated.View
+                    style={
+                      values.fileCreated === 'note'
+                        ? checkedButton(selectedColor)
+                        : styles.button
+                    }
+                    entering={ZoomIn.duration(400)}
+                  >
+                    <Pressable
+                      style={styles.buttonContent}
+                      onPress={() => setFieldValue('fileCreated', 'note')}
+                    >
+                      <FontAwesome name="file" size={24} color="black" />
+                      <Texto estilo="montserratBold">Una nota</Texto>
+                    </Pressable>
+                  </Animated.View>
+                </Pressable>
+                <Pressable
+                  onPress={() => setFieldValue('fileCreated', 'folder')}
+                >
+                  <Animated.View
+                    style={
+                      values.fileCreated === 'folder'
+                        ? checkedButton(selectedColor)
+                        : styles.button
+                    }
+                    entering={ZoomIn.duration(400)}
+                  >
+                    <Pressable
+                      style={styles.buttonContent}
+                      onPress={() => setFieldValue('fileCreated', 'folder')}
+                    >
+                      <FontAwesome name="folder-open" size={30} color="black" />
+                      <Texto estilo="montserratBold">Una carpeta</Texto>
+                    </Pressable>
+                  </Animated.View>
+                </Pressable>
+              </View>
+              <Pressable onPress={() => console.log(values.color)}>
+                <Texto estilo="montserratBold" marginBottom="medium">
+                  Elige un color para mostrarla
+                </Texto>
+              </Pressable>
+
+              <View>
+                <FlatList
+                  data={COLOR_OPTIONS}
+                  contentContainerStyle={styles.colorPickerContainer}
+                  overScrollMode="auto"
+                  horizontal={true}
+                  showsHorizontalScrollIndicator={false}
+                  renderItem={({ item }) => (
+                    <Item colorOption={item} setFieldValue={setFieldValue} />
+                  )}
+                />
+              </View>
+              <Texto estilo="montserratBold" marginBottom="medium">
+                ¿Cómo la vas a llamar?
+              </Texto>
+            </>
+          )}
+        </Formik>
       </Layout>
     </>
   )
