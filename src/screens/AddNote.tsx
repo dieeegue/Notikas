@@ -4,12 +4,23 @@ import { DatabaseService } from '../database/Database'
 import * as SQLite from 'expo-sqlite'
 import { Header } from '../modules/notes/_components/Header/Header'
 import { Texto } from '../common/Texto/Texto'
-import { View, StyleSheet, FlatList, ViewStyle, Pressable } from 'react-native'
+import {
+  View,
+  StyleSheet,
+  FlatList,
+  ViewStyle,
+  Pressable,
+  TextInput,
+  KeyboardAvoidingView,
+  Platform,
+  ScrollView,
+} from 'react-native'
 import theme, { NoteColors } from '../theme'
 import { FontAwesome } from '@expo/vector-icons'
 import { useState } from 'react'
 import Animated, { ZoomIn } from 'react-native-reanimated'
 import { Form, Formik, FormikErrors } from 'formik'
+import { SafeAreaView } from 'react-native-safe-area-context'
 
 interface ColorOption {
   color: string
@@ -134,82 +145,101 @@ export const AddNote = () => {
   const AnimatedPressable = Animated.createAnimatedComponent(Pressable)
 
   return (
-    <>
-      <StatusBar style="auto" />
-      <Layout>
-        <Header />
-        <Formik initialValues={initialValues} onSubmit={() => {}}>
-          {({ setFieldValue, handleSubmit, values }) => (
-            <>
-              <Texto estilo="montserratBold" marginBottom="medium">
-                ¿Qué deseas crear?
-              </Texto>
-              <View style={styles.buttonContainer}>
-                <Pressable onPress={() => setFieldValue('fileCreated', 'note')}>
-                  <Animated.View
-                    style={
-                      values.fileCreated === 'note'
-                        ? checkedButton(selectedColor)
-                        : styles.button
-                    }
-                    entering={ZoomIn.duration(400)}
-                  >
+    <SafeAreaView>
+      <KeyboardAvoidingView>
+        <StatusBar style="auto" />
+        <ScrollView>
+          <Layout>
+            <Header />
+            <Formik initialValues={initialValues} onSubmit={() => {}}>
+              {({ handleChange, setFieldValue, handleSubmit, values }) => (
+                <>
+                  <Texto estilo="montserratBold" marginBottom="medium">
+                    ¿Qué deseas crear?
+                  </Texto>
+                  <View style={styles.buttonContainer}>
                     <Pressable
-                      style={styles.buttonContent}
-                      onPress={() => setFieldValue('fileCreated', 'note')}
+                      onPress={() => {
+                        setFieldValue('fileCreated', 'note')
+                      }}
                     >
-                      <FontAwesome name="file" size={24} color="black" />
-                      <Texto estilo="montserratBold">Una nota</Texto>
+                      <Animated.View
+                        style={
+                          values.fileCreated === 'note'
+                            ? checkedButton(selectedColor)
+                            : styles.button
+                        }
+                        entering={ZoomIn.duration(400)}
+                      >
+                        <Pressable
+                          style={styles.buttonContent}
+                          onPress={() => setFieldValue('fileCreated', 'note')}
+                        >
+                          <FontAwesome name="file" size={24} color="black" />
+                          <Texto estilo="montserratBold">Una nota</Texto>
+                        </Pressable>
+                      </Animated.View>
                     </Pressable>
-                  </Animated.View>
-                </Pressable>
-                <Pressable
-                  onPress={() => setFieldValue('fileCreated', 'folder')}
-                >
-                  <Animated.View
-                    style={
-                      values.fileCreated === 'folder'
-                        ? checkedButton(selectedColor)
-                        : styles.button
-                    }
-                    entering={ZoomIn.duration(400)}
-                  >
                     <Pressable
-                      style={styles.buttonContent}
                       onPress={() => setFieldValue('fileCreated', 'folder')}
                     >
-                      <FontAwesome name="folder-open" size={30} color="black" />
-                      <Texto estilo="montserratBold">Una carpeta</Texto>
+                      <Animated.View
+                        style={
+                          values.fileCreated === 'folder'
+                            ? checkedButton(selectedColor)
+                            : styles.button
+                        }
+                        entering={ZoomIn.duration(400)}
+                      >
+                        <Pressable
+                          style={styles.buttonContent}
+                          onPress={() => setFieldValue('fileCreated', 'folder')}
+                        >
+                          <FontAwesome
+                            name="folder-open"
+                            size={30}
+                            color="black"
+                          />
+                          <Texto estilo="montserratBold">Una carpeta</Texto>
+                        </Pressable>
+                      </Animated.View>
                     </Pressable>
-                  </Animated.View>
-                </Pressable>
-              </View>
-              <Pressable onPress={() => console.log(values.color)}>
-                <Texto estilo="montserratBold" marginBottom="medium">
-                  Elige un color para mostrarla
-                </Texto>
-              </Pressable>
+                  </View>
+                  <Pressable onPress={() => console.log(values.color)}>
+                    <Texto estilo="montserratBold" marginBottom="medium">
+                      Elige un color para mostrarla
+                    </Texto>
+                  </Pressable>
 
-              <View>
-                <FlatList
-                  data={COLOR_OPTIONS}
-                  contentContainerStyle={styles.colorPickerContainer}
-                  overScrollMode="auto"
-                  horizontal={true}
-                  showsHorizontalScrollIndicator={false}
-                  renderItem={({ item }) => (
-                    <Item colorOption={item} setFieldValue={setFieldValue} />
-                  )}
-                />
-              </View>
-              <Texto estilo="montserratBold" marginBottom="medium">
-                ¿Cómo la vas a llamar?
-              </Texto>
-            </>
-          )}
-        </Formik>
-      </Layout>
-    </>
+                  <View>
+                    <FlatList
+                      data={COLOR_OPTIONS}
+                      contentContainerStyle={styles.colorPickerContainer}
+                      overScrollMode="auto"
+                      horizontal={true}
+                      showsHorizontalScrollIndicator={false}
+                      renderItem={({ item }) => (
+                        <Item
+                          colorOption={item}
+                          setFieldValue={setFieldValue}
+                        />
+                      )}
+                    />
+                  </View>
+                  <Texto estilo="montserratBold" marginBottom="medium">
+                    ¿Cómo la vas a llamar?
+                  </Texto>
+                  <TextInput
+                    placeholder="Hola"
+                    onChangeText={handleChange('noteName')}
+                  />
+                </>
+              )}
+            </Formik>
+          </Layout>
+        </ScrollView>
+      </KeyboardAvoidingView>
+    </SafeAreaView>
   )
 }
 
