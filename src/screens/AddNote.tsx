@@ -9,6 +9,7 @@ import theme, { NoteColors } from '../theme'
 import { FontAwesome } from '@expo/vector-icons'
 import { useState } from 'react'
 import Animated, { FadeIn, ZoomIn } from 'react-native-reanimated'
+import { forceTouchGestureHandlerProps } from 'react-native-gesture-handler/lib/typescript/handlers/ForceTouchGestureHandler'
 
 interface ColorOption {
   color: string
@@ -59,22 +60,23 @@ export const AddNote = () => {
   )
 
   const circleInput = (color: string): ViewStyle => ({
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
     backgroundColor: color,
     borderRadius: 100,
-    height: 30,
-    width: 30,
+    height: 34,
+    width: 34,
   })
 
   const checkedCircle = (colorOption: ColorOption): ViewStyle => {
     if (colorOption.value === selectedColor) {
       return {
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        width: 40,
-        height: 40,
+        width: 45,
+        height: 45,
         borderRadius: 100,
-        borderWidth: 2,
+        borderColor: colorOption.color,
+        borderWidth: 2.5,
       }
     }
     return {}
@@ -85,15 +87,15 @@ export const AddNote = () => {
   }
 
   const Item = (colorOption: ColorOption) => (
-    <Animated.View
-      style={checkedCircle(colorOption)}
-      entering={ZoomIn.duration(400)}
+    <Pressable
+      style={circleInput(colorOption.color)}
+      onPress={() => handleColorChange(colorOption)}
     >
-      <Pressable
-        style={circleInput(colorOption.color)}
-        onPress={() => handleColorChange(colorOption)}
+      <Animated.View
+        style={checkedCircle(colorOption)}
+        entering={ZoomIn.duration(400)}
       />
-    </Animated.View>
+    </Pressable>
   )
 
   return (
@@ -166,8 +168,11 @@ const styles = StyleSheet.create({
   colorPickerContainer: {
     display: 'flex',
     flexDirection: 'row',
+    justifyContent: 'center',
     alignItems: 'center',
     gap: theme.spacing.small,
+    minHeight: 60,
+    paddingHorizontal: theme.spacing.xsmall,
     marginBottom: theme.spacing.large,
   },
 })
