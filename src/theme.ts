@@ -3,14 +3,16 @@ const theme = {
     white: '#ffffff',
     primary: '#000000',
     secondary: '#EDEEF0',
-    pastelDarkBlue: '#D8DAEF',
-    pastelLightBlue: '#E6EDFD',
-    pastelDarkPurple: '#E8DEF6',
-    pastelLightPurple: '#F3E1F7',
-    pastelPink: '#FDD9E3',
-    pastelOrange: '#FCE6D8',
-    pastelYellow: '#FDF5E2',
-    pastelGreen: '#DBF4EE',
+    notes: {
+      pastelDarkBlue: '#D8DAEF',
+      pastelLightBlue: '#E6EDFD',
+      pastelDarkPurple: '#E8DEF6',
+      pastelLightPurple: '#F3E1F7',
+      pastelPink: '#FDD9E3',
+      pastelOrange: '#FCE6D8',
+      pastelYellow: '#FDF5E2',
+      pastelGreen: '#DBF4EE',
+    },
   },
   fontSizes: {
     base: 14,
@@ -32,6 +34,7 @@ const theme = {
   },
 }
 export type Color = keyof typeof theme.colors
+export type NoteColors = keyof typeof theme.colors.notes
 export type FontSize = keyof typeof theme.fontSizes
 export type FontFamily = keyof typeof theme.fonts
 export type Spacing = keyof typeof theme.spacing
