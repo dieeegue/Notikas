@@ -11,7 +11,6 @@ const styles = StyleSheet.create({
   itemContainer: {
     display: 'flex',
     flexDirection: 'column',
-    marginTop: Constants.statusBarHeight,
     paddingVertical: theme.spacing.large,
     paddingHorizontal: theme.spacing.medium,
     height: '100%',

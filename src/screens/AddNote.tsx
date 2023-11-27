@@ -12,14 +12,14 @@ import {
   Pressable,
   TextInput,
   KeyboardAvoidingView,
-  Platform,
   ScrollView,
+  Button,
 } from 'react-native'
 import theme, { NoteColors } from '../theme'
-import { FontAwesome } from '@expo/vector-icons'
-import { useState } from 'react'
+import { FontAwesome, MaterialCommunityIcons } from '@expo/vector-icons'
+import React, { useState } from 'react'
 import Animated, { ZoomIn } from 'react-native-reanimated'
-import { Form, Formik, FormikErrors } from 'formik'
+import { Formik, FormikErrors } from 'formik'
 import { SafeAreaView } from 'react-native-safe-area-context'
 
 interface ColorOption {
@@ -107,6 +107,11 @@ export const AddNote = () => {
     setSelectedColor(colorOption.value)
   }
 
+  const handleNoteCreation = (values: FormValues) => {
+    const { fileCreated, color, noteName } = values
+    console.log(`${fileCreated} + ${color} + ${noteName}`)
+  }
+
   type ItemProps = {
     colorOption: ColorOption
     setFieldValue: (
@@ -142,8 +147,6 @@ export const AddNote = () => {
     noteName: '',
   }
 
-  const AnimatedPressable = Animated.createAnimatedComponent(Pressable)
-
   return (
     <SafeAreaView>
       <KeyboardAvoidingView>
@@ -151,8 +154,14 @@ export const AddNote = () => {
         <ScrollView>
           <Layout>
             <Header />
-            <Formik initialValues={initialValues} onSubmit={() => {}}>
-              {({ handleChange, setFieldValue, handleSubmit, values }) => (
+            <Formik initialValues={initialValues} onSubmit={handleNoteCreation}>
+              {({
+                handleChange,
+                setFieldValue,
+                handleSubmit,
+                values,
+                isValid,
+              }) => (
                 <>
                   <Texto estilo="montserratBold" marginBottom="medium">
                     ¿Qué deseas crear?
@@ -229,10 +238,29 @@ export const AddNote = () => {
                   <Texto estilo="montserratBold" marginBottom="medium">
                     ¿Cómo la vas a llamar?
                   </Texto>
-                  <TextInput
-                    placeholder="Hola"
-                    onChangeText={handleChange('noteName')}
-                  />
+
+                  <View style={styles.searchSection}>
+                    <MaterialCommunityIcons
+                      name="pencil"
+                      size={18}
+                      color="black"
+                      style={styles.searchIcon}
+                    />
+                    <TextInput
+                      style={styles.noteInput}
+                      placeholder="Escribe aquí el nombre"
+                      onChangeText={handleChange('noteName')}
+                    />
+                  </View>
+
+                  <Button
+                    title="E_nviar"
+                    onPress={() => {
+                      if (isValid) {
+                        handleSubmit()
+                      }
+                    }}
+                  ></Button>
                 </>
               )}
             </Formik>
@@ -274,5 +302,21 @@ const styles = StyleSheet.create({
     minHeight: 60,
     paddingHorizontal: theme.spacing.xsmall,
     marginBottom: theme.spacing.large,
+  },
+  searchSection: {
+    backgroundColor: theme.colors.secondary,
+    borderRadius: 10,
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    flexGrow: 1,
+  },
+  searchIcon: {
+    paddingHorizontal: 15,
+  },
+  noteInput: {
+    minHeight: 50,
+    flexGrow: 1,
+    fontFamily: theme.fonts.montserratRegular,
   },
 })

@@ -10,6 +10,7 @@ import { NoteList } from '../modules/notes/_components/NoteList/NoteList'
 import { Note } from '../modules/notes/_components/Note/Note'
 import { DatabaseService } from '../database/Database'
 import { MainHeader } from '../modules/notes/_components/Header/MainHeader'
+import { SafeAreaView } from 'react-native-safe-area-context'
 
 Logs.enableExpoCliLogging()
 
@@ -71,12 +72,14 @@ export const Notes = () => {
   return (
     <>
       <StatusBar style="auto" />
-      <Layout>
-        <View style={styles.container}>
-          <MainHeader loadNotes={loadNotes} />
-          <NoteList data={notes} />
-        </View>
-      </Layout>
+      <SafeAreaView>
+        <Layout>
+          <View style={styles.container}>
+            <MainHeader loadNotes={loadNotes} />
+            <NoteList data={notes} />
+          </View>
+        </Layout>
+      </SafeAreaView>
     </>
   )
 }
