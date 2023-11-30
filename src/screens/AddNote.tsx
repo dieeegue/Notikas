@@ -13,59 +13,26 @@ import {
   TextInput,
   KeyboardAvoidingView,
   ScrollView,
-  Button,
 } from 'react-native'
 import theme, { NoteColors } from '../theme'
 import { FontAwesome, MaterialCommunityIcons } from '@expo/vector-icons'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Animated, { ZoomIn } from 'react-native-reanimated'
 import { Field, FieldProps, Formik, FormikErrors } from 'formik'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import * as Yup from 'yup'
-
-interface ColorOption {
-  color: string
-  value: NoteColors
-}
-
-const COLOR_OPTIONS: ColorOption[] = [
-  {
-    color: theme.colors.notes.pastelDarkPurple,
-    value: 'pastelDarkPurple',
-  },
-  {
-    color: theme.colors.notes.pastelLightPurple,
-    value: 'pastelLightPurple',
-  },
-  {
-    color: theme.colors.notes.pastelPink,
-    value: 'pastelPink',
-  },
-  {
-    color: theme.colors.notes.pastelOrange,
-    value: 'pastelOrange',
-  },
-  {
-    color: theme.colors.notes.pastelYellow,
-    value: 'pastelYellow',
-  },
-  {
-    color: theme.colors.notes.pastelGreen,
-    value: 'pastelGreen',
-  },
-  {
-    color: theme.colors.notes.pastelLightBlue,
-    value: 'pastelLightBlue',
-  },
-  {
-    color: theme.colors.notes.pastelDarkBlue,
-    value: 'pastelDarkBlue',
-  },
-]
+import { getColorOptions } from '../modules/notes/domain/services/getColorOptions'
+import { ColorOption } from '../modules/notes/domain/models/ColorOption'
 
 export const AddNote = () => {
   const [selectedColor, setSelectedColor] =
     useState<NoteColors>('pastelDarkPurple')
+  const [colorOptions, setColorOptions] = useState<ColorOption[]>()
+
+  useEffect(() => {
+    const colorOptions = getColorOptions()
+    setColorOptions(colorOptions)
+  }, [])
 
   const databaseService = new DatabaseService(
     SQLite.openDatabase('db.notikasDB')
@@ -253,7 +220,7 @@ export const AddNote = () => {
                     {({ field }: FieldProps<any>) => (
                       <View>
                         <FlatList
-                          data={COLOR_OPTIONS}
+                          data={colorOptions}
                           contentContainerStyle={styles.colorPickerContainer}
                           overScrollMode="auto"
                           horizontal={true}
