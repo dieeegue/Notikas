@@ -21,7 +21,7 @@ import React, { useState } from 'react'
 import Animated, { ZoomIn } from 'react-native-reanimated'
 import { Field, FieldProps, Formik, FormikErrors } from 'formik'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { object, string } from 'yup'
+import * as Yup from 'yup'
 
 interface ColorOption {
   color: string
@@ -109,8 +109,8 @@ export const AddNote = () => {
   }
 
   const handleNoteCreation = (values: FormValues) => {
-    const { fileType, color, noteName } = values
-    console.log(`${fileType} + ${color} + ${noteName}`)
+    const { fileType, color, fileName } = values
+    console.log(`${fileType} + ${color} + ${fileName}`)
   }
 
   type ItemProps = {
@@ -140,19 +140,28 @@ export const AddNote = () => {
   interface FormValues {
     fileType: string
     color: string
-    noteName: string
+    fileName: string
   }
 
   const initialValues: FormValues = {
     fileType: 'note',
     color: selectedColor,
-    noteName: '',
+    fileName: '',
   }
 
-  const validationSchema = object({
-    fileType: string().required(),
-    color: string().required(),
-    noteName: string().required(),
+  const validationSchema = Yup.object().shape({
+    fileType: Yup.string()
+      .trim()
+      .min(1, 'You have to choose a file type.')
+      .required('You have to choose a file type.'),
+    color: Yup.string()
+      .trim()
+      .min(1, 'You have to choose a color.')
+      .required('You have to choose a color.'),
+    fileName: Yup.string()
+      .trim()
+      .min(1, 'You have to name the file.')
+      .required('You have to name the file.'),
   })
 
   type IconName = 'file' | 'folder-open'
@@ -203,7 +212,13 @@ export const AddNote = () => {
               onSubmit={handleNoteCreation}
               validationSchema={validationSchema}
             >
-              {({ errors, handleChange, setFieldValue }) => (
+              {({
+                values,
+                errors,
+                handleChange,
+                setFieldValue,
+                handleSubmit,
+              }) => (
                 <>
                   <Texto estilo="montserratBold" marginBottom="medium">
                     ¿Qué deseas crear?
@@ -258,7 +273,7 @@ export const AddNote = () => {
                   <Texto estilo="montserratBold" marginBottom="medium">
                     ¿Cómo la vas a llamar?
                   </Texto>
-                  <Field name="noteName">
+                  <Field name="fileName">
                     {({ field }: FieldProps<any>) => (
                       <View style={styles.nameContainer}>
                         <MaterialCommunityIcons
@@ -281,6 +296,7 @@ export const AddNote = () => {
                       style={styles.saveButton}
                       android_ripple={{ color: theme.colors.white }}
                       onPress={() => {
+                        handleSubmit()
                         console.log(errors)
                       }}
                     >
