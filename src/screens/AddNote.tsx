@@ -18,9 +18,10 @@ import {
 import theme, { NoteColors } from '../theme'
 import { FontAwesome, MaterialCommunityIcons } from '@expo/vector-icons'
 import React, { useState } from 'react'
-import Animated, { FlipInEasyX, ZoomIn } from 'react-native-reanimated'
+import Animated, { ZoomIn } from 'react-native-reanimated'
 import { Field, FieldProps, Formik, FormikErrors } from 'formik'
 import { SafeAreaView } from 'react-native-safe-area-context'
+import { object, string } from 'yup'
 
 interface ColorOption {
   color: string
@@ -148,6 +149,12 @@ export const AddNote = () => {
     noteName: '',
   }
 
+  const validationSchema = object({
+    fileType: string().required(),
+    color: string().required(),
+    noteName: string().required(),
+  })
+
   return (
     <SafeAreaView>
       <KeyboardAvoidingView>
@@ -155,14 +162,12 @@ export const AddNote = () => {
         <ScrollView>
           <Layout>
             <Header />
-            <Formik initialValues={initialValues} onSubmit={handleNoteCreation}>
-              {({
-                handleChange,
-                setFieldValue,
-                handleSubmit,
-                values,
-                isValid,
-              }) => (
+            <Formik
+              initialValues={initialValues}
+              onSubmit={handleNoteCreation}
+              validationSchema={validationSchema}
+            >
+              {({ errors, handleChange, setFieldValue }) => (
                 <>
                   <Texto estilo="montserratBold" marginBottom="medium">
                     ¿Qué deseas crear?
@@ -275,6 +280,9 @@ export const AddNote = () => {
                     <Pressable
                       style={styles.saveButton}
                       android_ripple={{ color: theme.colors.white }}
+                      onPress={() => {
+                        console.log(errors)
+                      }}
                     >
                       <Texto color="white">Crear</Texto>
                     </Pressable>
