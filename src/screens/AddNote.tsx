@@ -155,6 +155,42 @@ export const AddNote = () => {
     noteName: string().required(),
   })
 
+  type IconName = 'file' | 'folder-open'
+  interface FileTypeButtonProps {
+    iconName: IconName
+    text: string
+    value: string
+    field: any
+    selectedColor: NoteColors
+    setFieldValue: (field: string, value: any, shouldValidate?: boolean) => void
+  }
+
+  const FileTypeButton: React.FC<FileTypeButtonProps> = ({
+    iconName,
+    text,
+    value,
+    field,
+    selectedColor,
+    setFieldValue,
+  }) => (
+    <Pressable onPress={() => setFieldValue(field.name, value)}>
+      <Animated.View
+        style={
+          field.value === value ? checkedButton(selectedColor) : styles.button
+        }
+        entering={ZoomIn.duration(400)}
+      >
+        <Pressable
+          style={styles.buttonContent}
+          onPress={() => setFieldValue(field.name, value)}
+        >
+          <FontAwesome name={iconName} size={24} color="black" />
+          <Texto estilo="montserratBold">{text}</Texto>
+        </Pressable>
+      </Animated.View>
+    </Pressable>
+  )
+
   return (
     <SafeAreaView>
       <KeyboardAvoidingView>
@@ -175,58 +211,22 @@ export const AddNote = () => {
                   <Field name="fileType">
                     {({ field }: FieldProps<any>) => (
                       <View style={styles.buttonContainer}>
-                        <Pressable
-                          onPress={() => {
-                            setFieldValue(field.name, 'note')
-                          }}
-                        >
-                          <Animated.View
-                            style={
-                              field.value === 'note'
-                                ? checkedButton(selectedColor)
-                                : styles.button
-                            }
-                            entering={ZoomIn.duration(400)}
-                          >
-                            <Pressable
-                              style={styles.buttonContent}
-                              onPress={() => setFieldValue(field.name, 'note')}
-                            >
-                              <FontAwesome
-                                name="file"
-                                size={24}
-                                color="black"
-                              />
-                              <Texto estilo="montserratBold">Una nota</Texto>
-                            </Pressable>
-                          </Animated.View>
-                        </Pressable>
-                        <Pressable
-                          onPress={() => setFieldValue(field.name, 'folder')}
-                        >
-                          <Animated.View
-                            style={
-                              field.value === 'folder'
-                                ? checkedButton(selectedColor)
-                                : styles.button
-                            }
-                            entering={ZoomIn.duration(400)}
-                          >
-                            <Pressable
-                              style={styles.buttonContent}
-                              onPress={() =>
-                                setFieldValue(field.name, 'folder')
-                              }
-                            >
-                              <FontAwesome
-                                name="folder-open"
-                                size={30}
-                                color="black"
-                              />
-                              <Texto estilo="montserratBold">Una carpeta</Texto>
-                            </Pressable>
-                          </Animated.View>
-                        </Pressable>
+                        <FileTypeButton
+                          iconName="file"
+                          text="Una nota"
+                          value="note"
+                          field={field}
+                          selectedColor={selectedColor}
+                          setFieldValue={setFieldValue}
+                        />
+                        <FileTypeButton
+                          iconName="folder-open"
+                          text="Una carpeta"
+                          value="folder"
+                          field={field}
+                          selectedColor={selectedColor}
+                          setFieldValue={setFieldValue}
+                        />
                       </View>
                     )}
                   </Field>
