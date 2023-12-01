@@ -1,5 +1,4 @@
 import React from 'react'
-import Constants from 'expo-constants'
 import { StyleSheet, View } from 'react-native'
 import theme from '../../theme'
 

@@ -1,7 +1,8 @@
 export interface Note {
-  id: string;
-  title: string;
-  content: string;
-  preview: string;
-  createdAt: Date;
+  id: string
+  title: string
+  content: string
+  color: string
+  createdAt: string
+  isFavorite: boolean
 }

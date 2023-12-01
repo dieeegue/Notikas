@@ -1,16 +1,17 @@
 import React, { useEffect, useState } from 'react'
-import { Layout } from '../../../common/Layout/Layout'
-import { Texto } from '../../../common/Texto/Texto'
+import { Layout } from '../../../../common/Layout/Layout'
+import { Texto } from '../../../../common/Texto/Texto'
 import { View, StyleSheet } from 'react-native'
-import theme from '../../../theme'
+import theme from '../../../../theme'
 import { StatusBar } from 'expo-status-bar'
 import * as SQLite from 'expo-sqlite'
 import { Logs } from 'expo'
-import { NoteList } from '../_components/NoteList/NoteList'
-import { Note } from '../_components/Note/Note'
-import { DatabaseService } from '../../../database/Database'
-import { MainHeader } from '../_components/Header/MainHeader'
+import { NoteList } from '../../_components/NoteList/NoteList'
+import { MainHeader } from '../../_components/Header/MainHeader'
 import { SafeAreaView } from 'react-native-safe-area-context'
+import { SQLiteNotesRepository } from '../../infrastructure/repositories/SQLiteNotesRepository'
+import { GetNotes } from '../../application/use_cases/GetNotes'
+import { Note } from '../../domain/models/Note'
 
 Logs.enableExpoCliLogging()
 
@@ -19,24 +20,15 @@ export const Notes = () => {
   const [isLoading, setIsLoading] = useState<boolean>(true)
   const [hasError, setHasError] = useState<boolean>(false)
 
-  const databaseService = new DatabaseService(
-    SQLite.openDatabase('db.notikasDB')
-  )
+  const db = SQLite.openDatabase('db.notikasDB')
+  const notesRepository = new SQLiteNotesRepository(db)
+  const getAllNotes = new GetNotes(notesRepository)
 
   useEffect(() => {
     try {
-      const onLoad = () => {
-        databaseService.query(
-          'CREATE TABLE IF NOT EXISTS notes (?, ?, ?, ?, ?);',
-          [
-            'id INTEGER PRIMARY KEY AUTOINCREMENT',
-            'title TEXT',
-            'content TEXT',
-            'preview TEXT',
-            'createdAt TEXT',
-          ]
-        )
-        loadNotes()
+      const onLoad = async () => {
+        const notes = await getAllNotes.execute()
+        setNotes(notes)
       }
       onLoad()
       setIsLoading(false)
@@ -45,10 +37,9 @@ export const Notes = () => {
     }
   }, [])
 
-  const loadNotes = () => {
-    databaseService.selectAllFromTable('notes', (_, result) => {
-      setNotes(result.rows._array)
-    })
+  const loadNotes = async () => {
+    const notes = await getAllNotes.execute()
+    setNotes(notes)
   }
 
   if (isLoading) {

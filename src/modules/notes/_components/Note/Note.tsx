@@ -6,18 +6,16 @@ import { Texto } from '../../../../common/Texto/Texto'
 export type Note = {
   title: string
   content: string
-  preview: string
   createdAt: string
 }
 
-export const Note: React.FC<Note> = ({ title, preview }) => {
+export const Note: React.FC<Note> = ({ title }) => {
   return (
     <View style={styles.container}>
       <View style={styles.content}>
         <Texto estilo="montserratBold" size="medium">
           {title}
         </Texto>
-        <Texto>{preview}</Texto>
       </View>
     </View>
   )
@@ -25,7 +23,7 @@ export const Note: React.FC<Note> = ({ title, preview }) => {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: theme.colors.pastelYellow,
+    backgroundColor: theme.colors.notes.pastelYellow,
     minHeight: 110,
     borderRadius: 15,
   },

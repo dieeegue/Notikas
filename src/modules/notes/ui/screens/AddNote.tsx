@@ -1,9 +1,7 @@
 import { StatusBar } from 'expo-status-bar'
-import { Layout } from '../../../common/Layout/Layout'
-import { DatabaseService } from '../../../database/Database'
-import * as SQLite from 'expo-sqlite'
-import { Header } from '../_components/Header/Header'
-import { Texto } from '../../../common/Texto/Texto'
+import { Layout } from '../../../../common/Layout/Layout'
+import { Header } from '../../_components/Header/Header'
+import { Texto } from '../../../../common/Texto/Texto'
 import {
   View,
   StyleSheet,
@@ -14,81 +12,69 @@ import {
   KeyboardAvoidingView,
   ScrollView,
 } from 'react-native'
-import theme, { NoteColors } from '../../../theme'
+import theme, { NoteColors } from '../../../../theme'
 import { FontAwesome, MaterialCommunityIcons } from '@expo/vector-icons'
 import React, { useEffect, useState } from 'react'
 import Animated, { ZoomIn } from 'react-native-reanimated'
 import { Field, FieldProps, Formik, FormikErrors } from 'formik'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import * as Yup from 'yup'
-import { getColorOptions } from '../domain/services/getColorOptions'
-import { ColorOption } from '../domain/models/ColorOption'
+import * as SQLite from 'expo-sqlite'
+import { getColorOptions } from '../../domain/services/getColorOptions'
+import { ColorOption } from '../../domain/models/ColorOption'
+import { checkedButton, checkedCircle, circleInput } from '../styles/styles'
+import { SQLiteNotesRepository } from '../../infrastructure/repositories/SQLiteNotesRepository'
+import { CreateNote } from '../../application/use_cases/CreateNote'
+import moment from 'moment'
+
+interface FormValues {
+  fileType: string
+  color: string
+  fileName: string
+}
+
+type ItemProps = {
+  colorOption: ColorOption
+  fieldName: string
+  setFieldValue: (
+    field: string,
+    value: any,
+    shouldValidate?: boolean | undefined
+  ) => Promise<void | FormikErrors<FormValues>>
+}
 
 export const AddNote = () => {
   const [selectedColor, setSelectedColor] =
     useState<NoteColors>('pastelDarkPurple')
   const [colorOptions, setColorOptions] = useState<ColorOption[]>()
 
+  const db = SQLite.openDatabase('db.notikasDB')
+  const notesRepository = new SQLiteNotesRepository(db)
+  const createNote = new CreateNote(notesRepository)
+
   useEffect(() => {
     const colorOptions = getColorOptions()
     setColorOptions(colorOptions)
   }, [])
 
-  const databaseService = new DatabaseService(
-    SQLite.openDatabase('db.notikasDB')
-  )
-
-  const circleInput = (color: string): ViewStyle => ({
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: color,
-    borderRadius: 100,
-    height: 34,
-    width: 34,
-  })
-
-  const checkedCircle = (colorOption: ColorOption): ViewStyle => {
-    if (colorOption.value === selectedColor) {
-      return {
-        width: 45,
-        height: 45,
-        borderRadius: 100,
-        borderColor: colorOption.color,
-        borderWidth: 2.5,
-      }
-    }
-    return {}
-  }
-
-  const checkedButton = (color: NoteColors): ViewStyle => {
-    return {
-      backgroundColor: theme.colors.notes[color],
-      borderRadius: 10,
-      height: 150,
-      width: 150,
-      padding: 30,
-    }
-  }
-
   const handleColorChange = (colorOption: ColorOption) => {
     setSelectedColor(colorOption.value)
   }
 
-  const handleNoteCreation = (values: FormValues) => {
+  const handleCreation = (values: FormValues) => {
     const { fileType, color, fileName } = values
-    console.log(`${fileType} + ${color} + ${fileName}`)
+    if (fileType === 'note') {
+      createNote.execute({
+        id: 'irrelevantID',
+        title: fileName,
+        content: '',
+        color,
+        createdAt: new Date().toISOString(),
+        isFavorite: false,
+      })
+    }
   }
 
-  type ItemProps = {
-    colorOption: ColorOption
-    fieldName: string
-    setFieldValue: (
-      field: string,
-      value: any,
-      shouldValidate?: boolean | undefined
-    ) => Promise<void | FormikErrors<FormValues>>
-  }
   const Item = ({ colorOption, fieldName, setFieldValue }: ItemProps) => (
     <Pressable
       style={circleInput(colorOption.color)}
@@ -98,17 +84,11 @@ export const AddNote = () => {
       }}
     >
       <Animated.View
-        style={checkedCircle(colorOption)}
+        style={checkedCircle(colorOption, selectedColor)}
         entering={ZoomIn.duration(400)}
       />
     </Pressable>
   )
-
-  interface FormValues {
-    fileType: string
-    color: string
-    fileName: string
-  }
 
   const initialValues: FormValues = {
     fileType: 'note',
@@ -176,7 +156,7 @@ export const AddNote = () => {
             <Header />
             <Formik
               initialValues={initialValues}
-              onSubmit={handleNoteCreation}
+              onSubmit={handleCreation}
               validationSchema={validationSchema}
             >
               {({
