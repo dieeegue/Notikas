@@ -1,9 +1,9 @@
 import { Text } from 'react-native'
-import { Notes } from './src/screens/Notes'
+import { Notes } from './src/modules/notes/screens/Notes'
 import { useFonts } from 'expo-font'
 import { NavigationContainer, DefaultTheme } from '@react-navigation/native'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
-import { AddNote } from './src/screens/AddNote'
+import { AddNote } from './src/modules/notes/screens/AddNote'
 import { RootStackParamList } from './type'
 
 export default function App() {

@@ -1,9 +1,9 @@
 import { StatusBar } from 'expo-status-bar'
-import { Layout } from '../common/Layout/Layout'
-import { DatabaseService } from '../database/Database'
+import { Layout } from '../../../common/Layout/Layout'
+import { DatabaseService } from '../../../database/Database'
 import * as SQLite from 'expo-sqlite'
-import { Header } from '../modules/notes/_components/Header/Header'
-import { Texto } from '../common/Texto/Texto'
+import { Header } from '../_components/Header/Header'
+import { Texto } from '../../../common/Texto/Texto'
 import {
   View,
   StyleSheet,
@@ -14,15 +14,15 @@ import {
   KeyboardAvoidingView,
   ScrollView,
 } from 'react-native'
-import theme, { NoteColors } from '../theme'
+import theme, { NoteColors } from '../../../theme'
 import { FontAwesome, MaterialCommunityIcons } from '@expo/vector-icons'
 import React, { useEffect, useState } from 'react'
 import Animated, { ZoomIn } from 'react-native-reanimated'
 import { Field, FieldProps, Formik, FormikErrors } from 'formik'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import * as Yup from 'yup'
-import { getColorOptions } from '../modules/notes/domain/services/getColorOptions'
-import { ColorOption } from '../modules/notes/domain/models/ColorOption'
+import { getColorOptions } from '../domain/services/getColorOptions'
+import { ColorOption } from '../domain/models/ColorOption'
 
 export const AddNote = () => {
   const [selectedColor, setSelectedColor] =
