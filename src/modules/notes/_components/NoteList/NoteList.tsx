@@ -26,7 +26,12 @@ const Item = ({ title, content, color, createdAt, isFavorite }: ItemProps) => (
       android_ripple={{ color: theme.colors.primary, foreground: true }}
       onPress={() => handlePressItem()}
     >
-      <Note title={title} content={content} createdAt={createdAt} />
+      <Note
+        title={title}
+        color={color}
+        content={content}
+        createdAt={createdAt}
+      />
     </Pressable>
   </View>
 )

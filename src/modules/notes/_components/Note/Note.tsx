@@ -7,13 +7,16 @@ export type Note = {
   title: string
   content: string
   createdAt: string
+  color: string
 }
 
-export const Note: React.FC<Note> = ({ title }) => {
+export const Note: React.FC<Note> = ({ title, color }) => {
   return (
-    <View style={styles.container}>
+    <View
+      style={[styles.container, { backgroundColor: theme.colors.notes[color] }]}
+    >
       <View style={styles.content}>
-        <Texto estilo="montserratBold" size="medium">
+        <Texto estilo="montserratMedium" size="medium">
           {title}
         </Texto>
       </View>
@@ -23,7 +26,6 @@ export const Note: React.FC<Note> = ({ title }) => {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: theme.colors.notes.pastelYellow,
     minHeight: 110,
     borderRadius: 15,
   },

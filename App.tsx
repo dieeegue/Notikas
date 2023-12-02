@@ -5,6 +5,7 @@ import { NavigationContainer, DefaultTheme } from '@react-navigation/native'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import { AddNote } from './src/modules/notes/ui/screens/AddNote'
 import { RootStackParamList } from './type'
+import React from 'react'
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -12,6 +13,7 @@ export default function App() {
     'mrt-bold': require('./assets/fonts/mrt-bold.ttf'),
     'mrt-extraBold': require('./assets/fonts/mrt-extraBold.ttf'),
     'mrt-light': require('./assets/fonts/mrt-light.ttf'),
+    'mrt-medium': require('./assets/fonts/mrt-medium.ttf'),
   })
 
   if (!fontsLoaded) {

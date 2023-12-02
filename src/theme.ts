@@ -23,6 +23,7 @@ const theme = {
     montserratRegular: 'mrt-regular',
     montserratBold: 'mrt-bold',
     montserratExtraBold: 'mrt-extraBold',
+    montserratMedium: 'mrt-medium',
     montserratLight: 'mrt-light',
   },
   spacing: {
