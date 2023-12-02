@@ -24,8 +24,7 @@ import { getColorOptions } from '../../domain/services/getColorOptions'
 import { ColorOption } from '../../domain/models/ColorOption'
 import { checkedButton, checkedCircle, circleInput } from '../styles/styles'
 import { SQLiteNotesRepository } from '../../infrastructure/repositories/SQLiteNotesRepository'
-import { CreateNote } from '../../application/use_cases/CreateNote'
-import moment from 'moment'
+import { createNote } from '../../application/create/createNote'
 
 interface FormValues {
   fileType: string
@@ -50,7 +49,6 @@ export const AddNote = () => {
 
   const db = SQLite.openDatabase('db.notikasDB')
   const notesRepository = new SQLiteNotesRepository(db)
-  const createNote = new CreateNote(notesRepository)
 
   useEffect(() => {
     const colorOptions = getColorOptions()
@@ -64,7 +62,7 @@ export const AddNote = () => {
   const handleCreation = (values: FormValues) => {
     const { fileType, color, fileName } = values
     if (fileType === 'note') {
-      createNote.execute({
+      createNote(notesRepository, {
         id: 'irrelevantID',
         title: fileName,
         content: '',

@@ -10,8 +10,8 @@ import { NoteList } from '../../_components/NoteList/NoteList'
 import { MainHeader } from '../../_components/Header/MainHeader'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { SQLiteNotesRepository } from '../../infrastructure/repositories/SQLiteNotesRepository'
-import { GetNotes } from '../../application/use_cases/GetNotes'
 import { Note } from '../../domain/models/Note'
+import { getAllNotes } from '../../application/getAll/getAllNotes'
 
 Logs.enableExpoCliLogging()
 
@@ -22,12 +22,11 @@ export const Notes = () => {
 
   const db = SQLite.openDatabase('db.notikasDB')
   const notesRepository = new SQLiteNotesRepository(db)
-  const getAllNotes = new GetNotes(notesRepository)
 
   useEffect(() => {
     try {
       const onLoad = async () => {
-        const notes = await getAllNotes.execute()
+        const notes = await getAllNotes(notesRepository)
         setNotes(notes)
       }
       onLoad()
@@ -38,7 +37,7 @@ export const Notes = () => {
   }, [])
 
   const loadNotes = async () => {
-    const notes = await getAllNotes.execute()
+    const notes = await getAllNotes(notesRepository)
     setNotes(notes)
   }
 

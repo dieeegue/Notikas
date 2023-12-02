@@ -12,10 +12,10 @@ import {
 
 export class SQLiteNotesRepository implements NotesRepository {
   constructor(private db: SQLite.SQLiteDatabase) {
-    this.initialSetup()
+    this.ensureTableExists()
   }
 
-  private initialSetup() {
+  private ensureTableExists() {
     this.db.transaction((tx) => {
       tx.executeSql(
         `CREATE TABLE IF NOT EXISTS notes (
@@ -61,7 +61,7 @@ export class SQLiteNotesRepository implements NotesRepository {
     })
   }
 
-  async getNote(id: string) {
+  async getNote(id: number) {
     return new Promise<Note | null>((resolve, reject) => {
       this.db.transaction((tx) => {
         tx.executeSql(
@@ -156,7 +156,7 @@ export class SQLiteNotesRepository implements NotesRepository {
     })
   }
 
-  async delete(id: string) {
+  async delete(id: number) {
     return new Promise<void>((resolve, reject) => {
       this.db.transaction((tx) => {
         tx.executeSql(
