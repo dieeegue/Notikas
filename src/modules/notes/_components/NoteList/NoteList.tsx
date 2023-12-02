@@ -1,6 +1,6 @@
 import React from 'react'
 import { FlatList, Pressable, View } from 'react-native'
-import theme from '../../../../theme'
+import theme from '@Notikas/theme'
 import { Note } from '../Note/Note'
 import { Note as NoteModel } from '../../domain/models/Note'
 

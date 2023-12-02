@@ -1,4 +1,4 @@
-import theme from '../../../../theme'
+import theme from '@Notikas/theme'
 import { ColorOption } from '../models/ColorOption'
 
 export const getColorOptions = (): ColorOption[] => [
