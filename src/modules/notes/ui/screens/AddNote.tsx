@@ -1,7 +1,7 @@
 import { StatusBar } from 'expo-status-bar'
-import { Layout } from '@Notikas/common/Layout/Layout'
+import { Layout } from '../../../../common/Layout/Layout'
 import { Header } from '../../_components/Header/Header'
-import { Texto } from '@Notikas/common/Texto/Texto'
+import { Texto } from '../../../../common/Texto/Texto'
 import {
   View,
   StyleSheet,
@@ -12,7 +12,7 @@ import {
   KeyboardAvoidingView,
   ScrollView,
 } from 'react-native'
-import theme, { NoteColors } from '@Notikas/theme'
+import theme, { NoteColors } from '../../../../theme'
 import { FontAwesome, MaterialCommunityIcons } from '@expo/vector-icons'
 import React, { useEffect, useState } from 'react'
 import Animated, { ZoomIn } from 'react-native-reanimated'

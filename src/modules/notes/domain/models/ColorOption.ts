@@ -1,4 +1,4 @@
-import { NoteColors } from '@Notikas/theme'
+import { NoteColors } from '../../../../theme'
 
 export interface ColorOption {
   color: string

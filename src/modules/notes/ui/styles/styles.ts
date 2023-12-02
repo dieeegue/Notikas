@@ -1,6 +1,6 @@
 import { ViewStyle } from 'react-native'
 import { ColorOption } from '../../domain/models/ColorOption'
-import theme, { NoteColors } from '@Notikas/theme'
+import theme, { NoteColors } from '../../../../theme'
 
 export const circleInput = (color: string): ViewStyle => ({
   display: 'flex',

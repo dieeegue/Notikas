@@ -1,7 +1,7 @@
 import React from 'react'
 import { View, StyleSheet } from 'react-native'
-import theme from '@Notikas/theme'
-import { Texto } from '@Notikas/common/Texto/Texto'
+import theme from '../../../../theme'
+import { Texto } from '../../../../common/Texto/Texto'
 
 export type Note = {
   title: string

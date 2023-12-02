@@ -8,7 +8,7 @@ import {
   LoadingError,
   SearchError,
   UpdateError,
-} from '@Notikas/errors'
+} from '../../../../errors'
 
 export class SQLiteNotesRepository implements NotesRepository {
   constructor(private db: SQLite.SQLiteDatabase) {
