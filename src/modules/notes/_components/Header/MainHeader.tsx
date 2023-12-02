@@ -4,8 +4,6 @@ import { View, StyleSheet, Pressable } from 'react-native'
 import { Texto } from '../../../../common/Texto/Texto'
 import Ionicons from '@expo/vector-icons/Ionicons'
 import MaterialIcons from '@expo/vector-icons/MaterialIcons'
-import * as SQLite from 'expo-sqlite'
-import { DatabaseService } from '../../../../database/Database'
 import { useNavigation } from '@react-navigation/native'
 import { RootStackNavigationProp } from '../../../../../type'
 
@@ -15,12 +13,8 @@ interface Props {
 
 export const MainHeader: React.FC<Props> = ({ loadNotes }) => {
   const navigation = useNavigation<RootStackNavigationProp>()
-  const databaseService = new DatabaseService(
-    SQLite.openDatabase('db.notikasDB')
-  )
 
   const handlePressMenu = () => {
-    databaseService.query('DELETE FROM notes;', [])
     loadNotes()
   }
 
