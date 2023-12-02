@@ -1,8 +1,8 @@
 import React from 'react'
-import theme from '../../../../theme'
+import theme from '@Notikas/theme'
 import { View, StyleSheet, Pressable } from 'react-native'
 import MaterialIcons from '@expo/vector-icons/MaterialIcons'
-import { Texto } from '../../../../common/Texto/Texto'
+import { Texto } from '@Notikas/common/Texto/Texto'
 import { useNavigation } from '@react-navigation/native'
 import { RootStackNavigationProp } from '../../../../../type'
 
