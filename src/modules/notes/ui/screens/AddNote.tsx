@@ -28,7 +28,7 @@ import { createNote } from '../../application/create/createNote'
 
 interface FormValues {
   fileType: string
-  color: string
+  color: NoteColors
   fileName: string
 }
 

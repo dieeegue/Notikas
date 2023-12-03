@@ -27,6 +27,7 @@ export const Texto: FC<Props> = ({
     estilo === 'montserratMedium' && styles.medium,
     color === 'secondary' && styles.secondary,
     color === 'white' && styles.white,
+    size === 'small' && styles.sizeSmall,
     size === 'medium' && styles.sizeMedium,
     size === 'heading' && styles.sizeHeading,
     marginBottom === 'xsmall' && styles.marginXSmall,
@@ -65,6 +66,9 @@ const styles = StyleSheet.create({
     fontFamily: theme.fonts.montserratBold,
   },
 
+  sizeSmall: {
+    fontSize: theme.fontSizes.small,
+  },
   sizeBase: {
     fontSize: theme.fontSizes.base,
   },

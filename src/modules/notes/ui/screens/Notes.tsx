@@ -16,8 +16,7 @@ import { getAllNotes } from '../../application/getAll/getAllNotes'
 Logs.enableExpoCliLogging()
 
 export const Notes = () => {
-  const [notes, setNotes] = useState<Note[] | undefined>(undefined)
-  const [isLoading, setIsLoading] = useState<boolean>(true)
+  const [notes, setNotes] = useState<Note[]>([])
   const [hasError, setHasError] = useState<boolean>(false)
 
   const db = SQLite.openDatabase('db.notikasDB')
@@ -30,7 +29,6 @@ export const Notes = () => {
         setNotes(notes)
       }
       onLoad()
-      setIsLoading(false)
     } catch (error) {
       setHasError(true)
     }
@@ -40,6 +38,8 @@ export const Notes = () => {
     const notes = await getAllNotes(notesRepository)
     setNotes(notes)
   }
+
+  const isLoading = !notes && !hasError
 
   if (isLoading) {
     return (

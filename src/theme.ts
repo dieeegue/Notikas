@@ -15,6 +15,8 @@ const theme = {
     },
   },
   fontSizes: {
+    xsmall: 10,
+    small: 12,
     base: 14,
     medium: 18,
     heading: 28,
