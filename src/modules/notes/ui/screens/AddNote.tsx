@@ -6,7 +6,6 @@ import {
   View,
   StyleSheet,
   FlatList,
-  ViewStyle,
   Pressable,
   TextInput,
   KeyboardAvoidingView,
@@ -19,12 +18,11 @@ import Animated, { ZoomIn } from 'react-native-reanimated'
 import { Field, FieldProps, Formik, FormikErrors } from 'formik'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import * as Yup from 'yup'
-import * as SQLite from 'expo-sqlite'
 import { getColorOptions } from '../../domain/services/getColorOptions'
 import { ColorOption } from '../../domain/models/ColorOption'
 import { checkedButton, checkedCircle, circleInput } from '../styles/styles'
-import { SQLiteNotesRepository } from '../../infrastructure/repositories/SQLiteNotesRepository'
 import { createNote } from '../../application/create/createNote'
+import { useNotesRepository } from '../../providers/useNotesRepository'
 
 interface FormValues {
   fileType: string
@@ -42,13 +40,17 @@ type ItemProps = {
   ) => Promise<void | FormikErrors<FormValues>>
 }
 
+enum FileType {
+  NOTE = 'note',
+  FOLDER = 'folder',
+}
+
 export const AddNote = () => {
   const [selectedColor, setSelectedColor] =
     useState<NoteColors>('pastelDarkPurple')
   const [colorOptions, setColorOptions] = useState<ColorOption[]>()
 
-  const db = SQLite.openDatabase('db.notikasDB')
-  const notesRepository = new SQLiteNotesRepository(db)
+  const { notesRepository } = useNotesRepository()
 
   useEffect(() => {
     const colorOptions = getColorOptions()
@@ -61,7 +63,7 @@ export const AddNote = () => {
 
   const handleCreation = (values: FormValues) => {
     const { fileType, color, fileName } = values
-    if (fileType === 'note') {
+    if (fileType === FileType.NOTE) {
       createNote(notesRepository, {
         id: 'irrelevantID',
         title: fileName,
@@ -157,13 +159,7 @@ export const AddNote = () => {
               onSubmit={handleCreation}
               validationSchema={validationSchema}
             >
-              {({
-                values,
-                errors,
-                handleChange,
-                setFieldValue,
-                handleSubmit,
-              }) => (
+              {({ errors, handleChange, setFieldValue, handleSubmit }) => (
                 <>
                   <Texto estilo="montserratBold" marginBottom="medium">
                     ¿Qué deseas crear?
