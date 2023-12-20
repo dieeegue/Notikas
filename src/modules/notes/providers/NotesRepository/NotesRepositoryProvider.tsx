@@ -1,7 +1,7 @@
 import React, { ReactNode } from 'react'
 import * as SQLite from 'expo-sqlite'
 import { NotesRepositoryContext } from './NotesRepositoryContext'
-import { SQLiteNotesRepository } from '../infrastructure/repositories/SQLiteNotesRepository'
+import { SQLiteNotesRepository } from '../../infrastructure/repositories/SQLiteNotesRepository'
 
 interface Props {
   children: ReactNode

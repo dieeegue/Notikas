@@ -8,34 +8,25 @@ import { Logs } from 'expo'
 import { NoteList } from '../../_components/NoteList/NoteList'
 import { MainHeader } from '../../_components/Header/MainHeader'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { Note } from '../../domain/models/Note'
-import { getAllNotes } from '../../application/getAll/getAllNotes'
-import { useNotesRepository } from '../../providers/useNotesRepository'
+import { useNotes } from '../../providers/Notes/useNotes'
 
 Logs.enableExpoCliLogging()
 
 export const Notes = () => {
-  const [notes, setNotes] = useState<Note[]>([])
   const [hasError, setHasError] = useState<boolean>(false)
 
-  const { notesRepository } = useNotesRepository()
+  const { notes, loadNotes } = useNotes()
 
   useEffect(() => {
     try {
       const onLoad = async () => {
-        const notes = await getAllNotes(notesRepository)
-        setNotes(notes)
+        loadNotes()
       }
       onLoad()
     } catch (error) {
       setHasError(true)
     }
   }, [])
-
-  const loadNotes = async () => {
-    const notes = await getAllNotes(notesRepository)
-    setNotes(notes)
-  }
 
   const isLoading = !notes && !hasError
 

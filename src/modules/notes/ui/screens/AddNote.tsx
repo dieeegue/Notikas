@@ -22,7 +22,8 @@ import { getColorOptions } from '../../domain/services/getColorOptions'
 import { ColorOption } from '../../domain/models/ColorOption'
 import { checkedButton, checkedCircle, circleInput } from '../styles/styles'
 import { createNote } from '../../application/create/createNote'
-import { useNotesRepository } from '../../providers/useNotesRepository'
+import { useNotesRepository } from '../../providers/NotesRepository/useNotesRepository'
+import { useNotes } from '../../providers/Notes/useNotes'
 
 interface FormValues {
   fileType: string
@@ -51,6 +52,7 @@ export const AddNote = () => {
   const [colorOptions, setColorOptions] = useState<ColorOption[]>()
 
   const { notesRepository } = useNotesRepository()
+  const { loadNotes } = useNotes()
 
   useEffect(() => {
     const colorOptions = getColorOptions()
@@ -72,6 +74,7 @@ export const AddNote = () => {
         createdAt: new Date().toISOString(),
         isFavorite: false,
       })
+      loadNotes()
     }
   }
 
