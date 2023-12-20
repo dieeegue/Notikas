@@ -1,6 +1,6 @@
 import React from 'react'
 import { FlatList, Pressable, View } from 'react-native'
-import theme, { NoteColors } from '../../../../theme'
+import theme, { FileColor } from '../../../../theme'
 import { Note } from '../Note/Note'
 import { Note as NoteModel } from '../../domain/models/Note'
 import MasonryList from '@react-native-seoul/masonry-list'
@@ -12,7 +12,7 @@ type Props = {
 type ItemProps = {
   title: string
   content: string
-  color: NoteColors
+  color: FileColor
   createdAt: string
   isFavorite: boolean
 }

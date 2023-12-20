@@ -1,10 +1,10 @@
-import { NoteColors } from '../../../../theme'
+import { FileColor } from '../../../../theme'
 
 export interface Note {
   id: string
   title: string
   content: string
-  color: NoteColors
+  color: FileColor
   createdAt: string
   isFavorite: boolean
 }

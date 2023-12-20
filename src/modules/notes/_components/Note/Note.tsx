@@ -1,13 +1,13 @@
 import React from 'react'
 import { View, StyleSheet } from 'react-native'
-import theme, { NoteColors } from '../../../../theme'
+import theme, { FileColor } from '../../../../theme'
 import { Texto } from '../../../../common/Texto/Texto'
 
 export type Note = {
   title: string
   content: string
   createdAt: string
-  color: NoteColors
+  color: FileColor
 }
 
 const formatUTCDate = (_date: string) => {
@@ -23,7 +23,7 @@ const formatUTCDate = (_date: string) => {
 export const Note: React.FC<Note> = ({ title, color, createdAt }) => {
   return (
     <View
-      style={[styles.container, { backgroundColor: theme.colors.notes[color] }]}
+      style={[styles.container, { backgroundColor: theme.colors.files[color] }]}
     >
       <View style={styles.content}>
         <Texto estilo="montserratMedium" size="medium">

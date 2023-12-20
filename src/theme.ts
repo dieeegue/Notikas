@@ -3,7 +3,7 @@ const theme = {
     white: '#ffffff',
     primary: '#000000',
     secondary: '#EDEEF0',
-    notes: {
+    files: {
       pastelDarkBlue: '#D8DAEF',
       pastelLightBlue: '#E6EDFD',
       pastelDarkPurple: '#E8DEF6',
@@ -37,7 +37,7 @@ const theme = {
   },
 }
 export type Color = keyof typeof theme.colors
-export type NoteColors = keyof typeof theme.colors.notes
+export type FileColor = keyof typeof theme.colors.files
 export type FontSize = keyof typeof theme.fontSizes
 export type FontFamily = keyof typeof theme.fonts
 export type Spacing = keyof typeof theme.spacing

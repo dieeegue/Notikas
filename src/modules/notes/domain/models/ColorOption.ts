@@ -1,6 +1,6 @@
-import { NoteColors } from '../../../../theme'
+import { FileColor } from '../../../../theme'
 
 export interface ColorOption {
   color: string
-  value: NoteColors
+  value: FileColor
 }

@@ -11,7 +11,7 @@ import {
   KeyboardAvoidingView,
   ScrollView,
 } from 'react-native'
-import theme, { NoteColors } from '../../../../theme'
+import theme, { FileColor } from '../../../../theme'
 import { FontAwesome, MaterialCommunityIcons } from '@expo/vector-icons'
 import React, { useEffect, useState } from 'react'
 import Animated, { ZoomIn } from 'react-native-reanimated'
@@ -27,7 +27,7 @@ import { useNotes } from '../../providers/Notes/useNotes'
 
 interface FormValues {
   fileType: string
-  color: NoteColors
+  color: FileColor
   fileName: string
 }
 
@@ -48,7 +48,7 @@ enum FileType {
 
 export const AddNote = () => {
   const [selectedColor, setSelectedColor] =
-    useState<NoteColors>('pastelDarkPurple')
+    useState<FileColor>('pastelDarkPurple')
   const [colorOptions, setColorOptions] = useState<ColorOption[]>()
 
   const { notesRepository } = useNotesRepository()
@@ -120,7 +120,7 @@ export const AddNote = () => {
     text: string
     value: string
     field: any
-    selectedColor: NoteColors
+    selectedColor: FileColor
     setFieldValue: (field: string, value: any, shouldValidate?: boolean) => void
   }
 
