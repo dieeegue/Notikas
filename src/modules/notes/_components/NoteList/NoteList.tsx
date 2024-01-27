@@ -26,7 +26,6 @@ const Item = ({ title, content, color, createdAt, isFavorite }: ItemProps) => (
     style={{
       borderRadius: 10,
       overflow: 'hidden',
-      flex: 1 / 2.1,
       margin: 5,
     }}
   >
@@ -47,11 +46,13 @@ const Item = ({ title, content, color, createdAt, isFavorite }: ItemProps) => (
 export const NoteList: React.FC<Props> = ({ data }) => {
   return (
     <View style={{ flex: 1 }}>
+      {/* TODO Use the method onEndReached to load more notes */}
       <MasonryList
         style={{ flex: 1 }}
         data={data}
         numColumns={2}
         overScrollMode="auto"
+        refreshControl={false}
         showsVerticalScrollIndicator={false}
         renderItem={({ item }) => {
           const note = item as NoteModel
