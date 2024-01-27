@@ -21,7 +21,7 @@ import * as Yup from 'yup'
 import { getColorOptions } from '../../domain/services/getColorOptions'
 import { ColorOption } from '../../domain/models/ColorOption'
 import { checkedButton, checkedCircle, circleInput } from '../styles/styles'
-import { createNote } from '../../application/create/createNote'
+import { createNote } from '../../application/note/create/createNote'
 import { useNotesRepository } from '../../providers/NotesRepository/useNotesRepository'
 import { useNotes } from '../../providers/Notes/useNotes'
 

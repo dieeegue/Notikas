@@ -1,7 +1,7 @@
 import React, { useState, useEffect, ReactNode } from 'react'
 import { NotesContext } from './NotesContext'
 import { useNotesRepository } from '../NotesRepository/useNotesRepository'
-import { getAllNotes } from '../../application/getAll/getAllNotes'
+import { getAllNotes } from '../../application/note/getAll/getAllNotes'
 import { Note } from '../../domain/models/Note'
 
 interface Props {
