@@ -1,5 +1,5 @@
 import { Text } from 'react-native'
-import { Notes } from './src/modules/notes/ui/screens/Notes'
+import { Home } from './src/modules/notes/ui/screens/Home'
 import { useFonts } from 'expo-font'
 import { NavigationContainer, DefaultTheme } from '@react-navigation/native'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
@@ -39,7 +39,7 @@ export default function App() {
           <Stack.Navigator initialRouteName="Notes">
             <Stack.Screen
               name="Notes"
-              component={Notes}
+              component={Home}
               options={{ headerShown: false }}
             />
             <Stack.Screen

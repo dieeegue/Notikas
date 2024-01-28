@@ -1,5 +1,5 @@
 import React from 'react'
-import { FlatList, Pressable, View } from 'react-native'
+import { Pressable, View } from 'react-native'
 import theme, { FileColor } from '../../../../theme'
 import { Note } from '../Note/Note'
 import { Note as NoteModel } from '../../domain/models/Note'
@@ -48,7 +48,6 @@ export const NoteList: React.FC<Props> = ({ data }) => {
     <View style={{ flex: 1 }}>
       {/* TODO Use the method onEndReached to load more notes */}
       <MasonryList
-        style={{ flex: 1 }}
         data={data}
         numColumns={2}
         overScrollMode="auto"

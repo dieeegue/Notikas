@@ -10,7 +10,7 @@ const styles = StyleSheet.create({
   itemContainer: {
     display: 'flex',
     flexDirection: 'column',
-    paddingVertical: theme.spacing.large,
+    paddingTop: theme.spacing.large,
     paddingHorizontal: theme.spacing.medium,
     height: '100%',
   },

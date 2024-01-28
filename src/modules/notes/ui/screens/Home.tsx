@@ -9,10 +9,11 @@ import { NoteList } from '../../_components/NoteList/NoteList'
 import { MainHeader } from '../../_components/Header/MainHeader'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useNotes } from '../../providers/Notes/useNotes'
+import { FolderList } from '../../_components/FolderList/FolderList'
 
 Logs.enableExpoCliLogging()
 
-export const Notes = () => {
+export const Home = () => {
   const [hasError, setHasError] = useState<boolean>(false)
 
   const { notes, loadNotes } = useNotes()
@@ -55,6 +56,10 @@ export const Notes = () => {
         <Layout>
           <View style={styles.container}>
             <MainHeader loadNotes={loadNotes} />
+            <FolderList data={undefined} />
+            <Texto marginBottom="xsmall" estilo="montserratMedium">
+              Últimas notas
+            </Texto>
             <NoteList data={notes} />
           </View>
         </Layout>
@@ -68,6 +73,6 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'column',
     paddingBottom: theme.spacing.large,
-    height: '100%',
+    flex: 1,
   },
 })
