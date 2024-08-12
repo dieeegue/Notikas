@@ -15,7 +15,7 @@ export const NotesRepositoryProvider: React.FC<Props> = ({ children }) => {
   const notesRepository = new SQLiteNotesRepository(db)
 
   return (
-    <NotesRepositoryContext.Provider value={{ db, notesRepository }}>
+    <NotesRepositoryContext.Provider value={{ notesRepository }}>
       {children}
     </NotesRepositoryContext.Provider>
   )
