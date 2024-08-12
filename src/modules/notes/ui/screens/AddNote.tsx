@@ -67,9 +67,8 @@ export const AddNote = () => {
     const { fileType, color, fileName } = values
     if (fileType === FileType.NOTE) {
       createNote(notesRepository, {
-        id: 'irrelevantID',
         title: fileName,
-        content: '',
+        content: 'hola',
         color,
         createdAt: new Date().toISOString(),
         isFavorite: false,
@@ -137,7 +136,6 @@ export const AddNote = () => {
         style={
           field.value === value ? checkedButton(selectedColor) : styles.button
         }
-        entering={ZoomIn.duration(400)}
       >
         <Pressable
           style={styles.buttonContent}

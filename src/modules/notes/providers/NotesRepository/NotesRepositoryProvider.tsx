@@ -1,18 +1,21 @@
 import React, { ReactNode } from 'react'
-import * as SQLite from 'expo-sqlite/legacy'
 import { NotesRepositoryContext } from './NotesRepositoryContext'
 import { SQLiteNotesRepository } from '../../infrastructure/repositories/SQLiteNotesRepository'
+import { openDatabaseSync } from 'expo-sqlite/next'
+import { drizzle } from 'drizzle-orm/expo-sqlite'
 
 interface Props {
   children: ReactNode
 }
 
 export const NotesRepositoryProvider: React.FC<Props> = ({ children }) => {
-  const db = SQLite.openDatabase('db.notikasDB')
+  const expoDb = openDatabaseSync('db.notikas')
+  const db = drizzle(expoDb)
+
   const notesRepository = new SQLiteNotesRepository(db)
 
   return (
-    <NotesRepositoryContext.Provider value={{ db, notesRepository }}>
+    <NotesRepositoryContext.Provider value={{ notesRepository }}>
       {children}
     </NotesRepositoryContext.Provider>
   )

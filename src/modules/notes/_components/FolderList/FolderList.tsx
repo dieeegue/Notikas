@@ -5,6 +5,7 @@ import { Folder as FolderModel } from '../../domain/models/Folder'
 import { Folder } from '../Folder/Folder'
 import { Texto } from '../../../../common/Texto/Texto'
 import { MaterialIcons } from '@expo/vector-icons'
+import { isUndefined } from '../../../../common/utilities/isUndefined'
 
 type Props = {
   data: FolderModel[] | undefined
@@ -13,7 +14,7 @@ type Props = {
 const Item = () => <Folder />
 
 export const FolderList: React.FC<Props> = ({ data }) => {
-  if (!data) {
+  if (isUndefined(data)) {
     return (
       <View style={styles.noNotesContainer}>
         <MaterialIcons name="folder" size={40} />

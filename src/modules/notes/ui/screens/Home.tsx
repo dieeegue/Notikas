@@ -9,9 +9,18 @@ import { MainHeader } from '../../_components/Header/MainHeader'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useNotes } from '../../providers/Notes/useNotes'
 import { FolderList } from '../../_components/FolderList/FolderList'
+import migrations from '../../../../../drizzle/migrations'
+import { useMigrations } from 'drizzle-orm/expo-sqlite/migrator'
+import { isUndefined } from '../../../../common/utilities/isUndefined'
+import { openDatabaseSync } from 'expo-sqlite/next'
+import { drizzle } from 'drizzle-orm/expo-sqlite'
 
 export const Home = () => {
   const [hasError, setHasError] = useState<boolean>(false)
+
+  const expoDb = openDatabaseSync('db.notikas')
+  const db = drizzle(expoDb)
+  const { success, error } = useMigrations(db, migrations)
 
   const { notes, loadNotes } = useNotes()
 
@@ -26,22 +35,20 @@ export const Home = () => {
     }
   }, [])
 
-  const isLoading = !notes && !hasError
+  if (hasError || error) {
+    return (
+      <Layout>
+        <Texto>An error has occurred.</Texto>
+      </Layout>
+    )
+  }
+
+  const isLoading = isUndefined(notes) || isUndefined(success)
 
   if (isLoading) {
     return (
       <Layout>
         <Texto>Loading...</Texto>
-      </Layout>
-    )
-  }
-
-  if (hasError) {
-    return (
-      <Layout>
-        <Texto>
-          An error has occurred while trying to retrieve data from the database.
-        </Texto>
       </Layout>
     )
   }

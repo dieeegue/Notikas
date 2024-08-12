@@ -1,12 +1,12 @@
 import React from 'react'
 import { Pressable, View } from 'react-native'
 import theme, { FileColor } from '../../../../theme'
-import { Note } from '../Note/Note'
-import { Note as NoteModel } from '../../domain/models/Note'
+import { NoteCard } from '../Note/Note'
+import { Note } from '../../../../../db/schema'
 import MasonryList from '@react-native-seoul/masonry-list'
 
 type Props = {
-  data: NoteModel[]
+  data: Note[]
 }
 
 type ItemProps = {
@@ -33,7 +33,7 @@ const Item = ({ title, content, color, createdAt, isFavorite }: ItemProps) => (
       android_ripple={{ color: theme.colors.primary, foreground: true }}
       onPress={() => handlePressItem()}
     >
-      <Note
+      <NoteCard
         title={title}
         color={color}
         content={content}
@@ -54,7 +54,7 @@ export const NoteList: React.FC<Props> = ({ data }) => {
         refreshControl={false}
         showsVerticalScrollIndicator={false}
         renderItem={({ item }) => {
-          const note = item as NoteModel
+          const note = item as Note
           return (
             <Item
               title={note.title}

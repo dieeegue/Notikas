@@ -1,5 +1,5 @@
 import React from 'react'
-import { Note } from '../../domain/models/Note'
+import { Note } from '../../../../../db/schema'
 
 export interface Context {
   notes: Note[]
