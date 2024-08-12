@@ -20,7 +20,7 @@ const formatUTCDate = (_date: string) => {
   return `${day}/${month}/${year}`
 }
 
-export const Note: React.FC<Note> = ({ title, color, createdAt }) => {
+export const NoteComponent: React.FC<Note> = ({ title, color, createdAt }) => {
   return (
     <View
       style={[styles.container, { backgroundColor: theme.colors.files[color] }]}

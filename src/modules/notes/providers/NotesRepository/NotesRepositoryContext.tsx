@@ -2,9 +2,10 @@ import React from 'react'
 
 import * as SQLite from 'expo-sqlite/legacy'
 import { NotesRepository } from '../../domain/repositories/NotesRepository'
+import { ExpoSQLiteDatabase } from 'drizzle-orm/expo-sqlite/driver'
 
 export interface Context {
-  db: SQLite.SQLiteDatabase
+  db: ExpoSQLiteDatabase
   notesRepository: NotesRepository
 }
 

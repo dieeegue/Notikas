@@ -1,9 +1,9 @@
-import { Note } from '../models/Note'
+import { Note } from '../../../../../db/schema'
 
 export interface NotesRepository {
   getAll(): Promise<Note[]>
-  getNote(id: number): Promise<Note | null>
-  create(note: Note): Promise<void>
-  update(note: Note): Promise<void>
-  delete(id: number): Promise<void>
+  getNoteById(id: number): Promise<Note[]>
+  create(note: Omit<Note, 'id'>): void
+  update(note: Note): void
+  delete(id: number): void
 }

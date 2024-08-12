@@ -9,9 +9,15 @@ import { MainHeader } from '../../_components/Header/MainHeader'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useNotes } from '../../providers/Notes/useNotes'
 import { FolderList } from '../../_components/FolderList/FolderList'
+import { useNotesRepository } from '../../providers/NotesRepository/useNotesRepository'
+import migrations from '../../../../../drizzle/migrations'
+import { useMigrations } from 'drizzle-orm/expo-sqlite/migrator'
 
 export const Home = () => {
   const [hasError, setHasError] = useState<boolean>(false)
+
+  const { db } = useNotesRepository()
+  const { success, error } = useMigrations(db, migrations)
 
   const { notes, loadNotes } = useNotes()
 
