@@ -12,6 +12,7 @@ import { FolderList } from '../../_components/FolderList/FolderList'
 import { useNotesRepository } from '../../providers/NotesRepository/useNotesRepository'
 import migrations from '../../../../../drizzle/migrations'
 import { useMigrations } from 'drizzle-orm/expo-sqlite/migrator'
+import { isUndefined } from '../../../../common/utilities/isUndefined'
 
 export const Home = () => {
   const [hasError, setHasError] = useState<boolean>(false)
@@ -32,22 +33,20 @@ export const Home = () => {
     }
   }, [])
 
-  const isLoading = !notes && !hasError
+  if (hasError || error) {
+    return (
+      <Layout>
+        <Texto>An error has occurred.</Texto>
+      </Layout>
+    )
+  }
+
+  const isLoading = isUndefined(notes) || isUndefined(success)
 
   if (isLoading) {
     return (
       <Layout>
         <Texto>Loading...</Texto>
-      </Layout>
-    )
-  }
-
-  if (hasError) {
-    return (
-      <Layout>
-        <Texto>
-          An error has occurred while trying to retrieve data from the database.
-        </Texto>
       </Layout>
     )
   }
