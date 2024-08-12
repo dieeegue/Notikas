@@ -1,5 +1,5 @@
 import React, { ReactNode } from 'react'
-import * as SQLite from 'expo-sqlite'
+import * as SQLite from 'expo-sqlite/legacy'
 import { NotesRepositoryContext } from './NotesRepositoryContext'
 import { SQLiteNotesRepository } from '../../infrastructure/repositories/SQLiteNotesRepository'
 

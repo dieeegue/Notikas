@@ -1,6 +1,6 @@
 import React from 'react'
 
-import * as SQLite from 'expo-sqlite'
+import * as SQLite from 'expo-sqlite/legacy'
 import { NotesRepository } from '../../domain/repositories/NotesRepository'
 
 export interface Context {

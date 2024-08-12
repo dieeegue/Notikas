@@ -4,14 +4,11 @@ import { Texto } from '../../../../common/Texto/Texto'
 import { View, StyleSheet } from 'react-native'
 import theme from '../../../../theme'
 import { StatusBar } from 'expo-status-bar'
-import { Logs } from 'expo'
 import { NoteList } from '../../_components/NoteList/NoteList'
 import { MainHeader } from '../../_components/Header/MainHeader'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useNotes } from '../../providers/Notes/useNotes'
 import { FolderList } from '../../_components/FolderList/FolderList'
-
-Logs.enableExpoCliLogging()
 
 export const Home = () => {
   const [hasError, setHasError] = useState<boolean>(false)
