@@ -1,7 +1,7 @@
 import React from 'react'
 import { Pressable, View } from 'react-native'
 import theme, { FileColor } from '../../../../theme'
-import { NoteComponent } from '../Note/Note'
+import { NoteCard } from '../Note/Note'
 import { Note } from '../../../../../db/schema'
 import MasonryList from '@react-native-seoul/masonry-list'
 
@@ -33,7 +33,7 @@ const Item = ({ title, content, color, createdAt, isFavorite }: ItemProps) => (
       android_ripple={{ color: theme.colors.primary, foreground: true }}
       onPress={() => handlePressItem()}
     >
-      <NoteComponent
+      <NoteCard
         title={title}
         color={color}
         content={content}
