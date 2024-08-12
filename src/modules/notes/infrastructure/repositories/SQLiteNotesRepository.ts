@@ -7,7 +7,6 @@ export class SQLiteNotesRepository implements NotesRepository {
   constructor(private db: ExpoSQLiteDatabase) {}
 
   async getAll() {
-    console.log('Ha tratado de obtener todas las notas')
     return this.db.select().from(notes).all()
   }
 
