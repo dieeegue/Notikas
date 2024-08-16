@@ -6,7 +6,6 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import { AddNote } from './src/modules/notes/ui/screens/AddNote'
 import { RootStackParamList } from './type'
 import React from 'react'
-import { EditNote } from './src/modules/notes/ui/screens/EditNote'
 import { NotesRepositoryProvider } from './src/modules/notes/providers/NotesRepository/NotesRepositoryProvider'
 import { NotesProvider } from './src/modules/notes/providers/Notes/NotesProvider'
 
@@ -46,11 +45,6 @@ export default function App() {
             <Stack.Screen
               name="AddNote"
               component={AddNote}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="EditNote"
-              component={EditNote}
               options={{ headerShown: false }}
             />
           </Stack.Navigator>

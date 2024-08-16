@@ -6,18 +6,16 @@ import type {
 export type RootStackParamList = {
   Notes: undefined
   AddNote: undefined
-  EditNote: { noteId: number }
 }
 
-export type NotesScreenProps = NativeStackScreenProps<RootStackParamList, 'Notes'>
-export type AddNoteScreenProps = NativeStackScreenProps<
+export type RootStackScreenProps = NativeStackScreenProps<
   RootStackParamList,
-  'AddNote'
->
-export type EditNoteScreenProps = NativeStackScreenProps<
-  RootStackParamList,
-  'EditNote'
+  Notes,
+  AddNote
 >
 
-export type RootStackNavigationProp =
-  NativeStackNavigationProp<RootStackParamList>
+export type RootStackNavigationProp = NativeStackNavigationProp<
+  RootStackParamList,
+  Notes,
+  AddNote
+>

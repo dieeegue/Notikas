@@ -24,8 +24,6 @@ import { checkedButton, checkedCircle, circleInput } from '../styles/styles'
 import { createNote } from '../../application/note/create/createNote'
 import { useNotesRepository } from '../../providers/NotesRepository/useNotesRepository'
 import { useNotes } from '../../providers/Notes/useNotes'
-import { useNavigation } from '@react-navigation/native'
-import { RootStackNavigationProp } from '../../../../../type'
 
 interface FormValues {
   fileType: string
@@ -48,13 +46,12 @@ enum FileType {
   FOLDER = 'folder',
 }
 
-export const AddNote: React.FC = () => {
+export const AddNote = () => {
   const [selectedColor, setSelectedColor] =
     useState<FileColor>('pastelDarkPurple')
   const [colorOptions, setColorOptions] = useState<ColorOption[]>()
 
   const { notesRepository } = useNotesRepository()
-  const navigation = useNavigation<RootStackNavigationProp>()
   const { loadNotes } = useNotes()
 
   useEffect(() => {
@@ -66,19 +63,17 @@ export const AddNote: React.FC = () => {
     setSelectedColor(colorOption.value)
   }
 
-  const handleCreation = async (values: FormValues) => {
+  const handleCreation = (values: FormValues) => {
     const { fileType, color, fileName } = values
     if (fileType === FileType.NOTE) {
-      const createdNote = await createNote(notesRepository, {
+      createNote(notesRepository, {
         title: fileName,
-        content: '',
+        content: 'hola',
         color,
         createdAt: new Date().toISOString(),
         isFavorite: false,
       })
-
       loadNotes()
-      navigation.navigate('EditNote', { noteId: createdNote.id })
     }
   }
 

@@ -15,7 +15,7 @@ import { isUndefined } from '../../../../common/utilities/isUndefined'
 import { openDatabaseSync } from 'expo-sqlite/next'
 import { drizzle } from 'drizzle-orm/expo-sqlite'
 
-export const Home: React.FC = () => {
+export const Home = () => {
   const [hasError, setHasError] = useState<boolean>(false)
 
   const expoDb = openDatabaseSync('db.notikas')
