@@ -14,6 +14,7 @@ import {
   StyleSheet,
   Pressable,
   ScrollView,
+  Keyboard,
 } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { Layout } from '../../../../common/Layout/Layout'
@@ -34,8 +35,17 @@ export const EditNote: React.FC<Props> = ({ route }) => {
   const [currentNote, setCurrentNote] = useState<Note | undefined>(undefined)
   const [content, setContent] = useState<string | undefined>(undefined)
   const [title, setTitle] = useState<string | undefined>(undefined)
+  const [isKeyboardShown, setIsKeyboardShown] = useState<boolean>(false)
 
   useEffect(() => {
+    const keyboardShowListener = Keyboard.addListener('keyboardDidShow', () => {
+      setIsKeyboardShown(true)
+    })
+
+    const keyboardHideListener = Keyboard.addListener('keyboardDidHide', () => {
+      setIsKeyboardShown(false)
+    })
+
     const onLoad = async () => {
       const [currentNote] = await getNoteById(notesRepository, noteId)
       setCurrentNote(currentNote)
@@ -43,6 +53,11 @@ export const EditNote: React.FC<Props> = ({ route }) => {
       setContent(currentNote?.content)
     }
     onLoad()
+
+    return () => {
+      keyboardShowListener.remove()
+      keyboardHideListener.remove()
+    }
   }, [])
 
   if (isUndefined(currentNote) || isUndefined(title))
@@ -63,13 +78,13 @@ export const EditNote: React.FC<Props> = ({ route }) => {
       <KeyboardAvoidingView>
         <Layout>
           <Header />
-          <ScrollView>
-            <TextInput
-              style={styles.titleInput}
-              placeholder="Ponle un título a la nota"
-              onChangeText={setTitle}
-              value={title}
-            />
+          <TextInput
+            style={styles.titleInput}
+            placeholder="Ponle un título a la nota"
+            onChangeText={setTitle}
+            value={title}
+          />
+          <ScrollView showsVerticalScrollIndicator={false}>
             <TextInput
               style={styles.contentInput}
               multiline
@@ -78,15 +93,17 @@ export const EditNote: React.FC<Props> = ({ route }) => {
               value={content}
             />
           </ScrollView>
+          {!isKeyboardShown && (
+            <Pressable
+              style={styles.bottomButton}
+              android_ripple={{ color: theme.colors.white }}
+              onPress={handleSave}
+            >
+              <FontAwesome name="save" size={16} color="white" />
+              <Texto color="white">Guardar</Texto>
+            </Pressable>
+          )}
         </Layout>
-        <Pressable
-          style={styles.bottomButton}
-          android_ripple={{ color: theme.colors.white }}
-          onPress={handleSave}
-        >
-          <FontAwesome name="save" size={16} color="white" />
-          <Texto color="white">Guardar</Texto>
-        </Pressable>
       </KeyboardAvoidingView>
     </SafeAreaView>
   )
