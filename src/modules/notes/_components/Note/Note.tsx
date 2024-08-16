@@ -5,7 +5,6 @@ import { Texto } from '../../../../common/Texto/Texto'
 
 export type Note = {
   title: string
-  content: string
   createdAt: string
   color: FileColor
 }

@@ -19,6 +19,7 @@ const theme = {
     small: 12,
     base: 14,
     medium: 18,
+    large: 24,
     heading: 28,
   },
   fonts: {

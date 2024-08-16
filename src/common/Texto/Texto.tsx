@@ -29,6 +29,7 @@ export const Texto: FC<Props> = ({
     color === 'white' && styles.white,
     size === 'small' && styles.sizeSmall,
     size === 'medium' && styles.sizeMedium,
+    size === 'large' && styles.sizeLarge,
     size === 'heading' && styles.sizeHeading,
     marginBottom === 'xsmall' && styles.marginXSmall,
     marginBottom === 'small' && styles.marginSmall,
@@ -74,6 +75,9 @@ const styles = StyleSheet.create({
   },
   sizeMedium: {
     fontSize: theme.fontSizes.medium,
+  },
+  sizeLarge: {
+    fontSize: theme.fontSizes.large,
   },
   sizeHeading: {
     fontSize: theme.fontSizes.heading,
