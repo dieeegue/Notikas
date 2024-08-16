@@ -84,7 +84,10 @@ export const EditNote: React.FC<Props> = ({ route }) => {
             onChangeText={setTitle}
             value={title}
           />
-          <ScrollView showsVerticalScrollIndicator={false}>
+          <ScrollView
+            showsVerticalScrollIndicator={false}
+            contentContainerStyle={{ paddingBottom: 120 }}
+          >
             <TextInput
               style={styles.contentInput}
               multiline
