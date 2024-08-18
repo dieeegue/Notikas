@@ -4,44 +4,45 @@ import theme, { FileColor } from '../../../../theme'
 import { NoteCard } from '../Note/Note'
 import { Note } from '../../../../../db/schema'
 import MasonryList from '@react-native-seoul/masonry-list'
+import { useNavigation } from '@react-navigation/native'
+import { RootStackNavigationProp } from '../../../../../type'
 
 type Props = {
   data: Note[]
 }
 
 type ItemProps = {
+  id: number
   title: string
-  content: string
   color: FileColor
   createdAt: string
   isFavorite: boolean
 }
 
-const handlePressItem = () => {
-  console.log('pressed')
-}
+const Item: React.FC<ItemProps> = ({ id, title, createdAt, color }) => {
+  const navigation = useNavigation<RootStackNavigationProp>()
 
-const Item = ({ title, content, color, createdAt, isFavorite }: ItemProps) => (
-  <View
-    style={{
-      borderRadius: 10,
-      overflow: 'hidden',
-      margin: 5,
-    }}
-  >
-    <Pressable
-      android_ripple={{ color: theme.colors.primary, foreground: true }}
-      onPress={() => handlePressItem()}
+  const handlePressItem = (id: number) => () => {
+    navigation.navigate('EditNote', { noteId: id })
+  }
+
+  return (
+    <View
+      style={{
+        borderRadius: 10,
+        overflow: 'hidden',
+        margin: 5,
+      }}
     >
-      <NoteCard
-        title={title}
-        color={color}
-        content={content}
-        createdAt={createdAt}
-      />
-    </Pressable>
-  </View>
-)
+      <Pressable
+        android_ripple={{ color: theme.colors.primary, foreground: true }}
+        onPress={handlePressItem(id)}
+      >
+        <NoteCard title={title} color={color} createdAt={createdAt} />
+      </Pressable>
+    </View>
+  )
+}
 
 export const NoteList: React.FC<Props> = ({ data }) => {
   return (
@@ -57,8 +58,8 @@ export const NoteList: React.FC<Props> = ({ data }) => {
           const note = item as Note
           return (
             <Item
+              id={note.id}
               title={note.title}
-              content={note.content}
               color={note.color}
               createdAt={note.createdAt}
               isFavorite={note.isFavorite}

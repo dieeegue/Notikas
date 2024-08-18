@@ -15,7 +15,11 @@ export class SQLiteNotesRepository implements NotesRepository {
   }
 
   async create(note: Omit<Note, 'id'>) {
-    await this.db.insert(notes).values(note)
+    const [createdNote] = await this.db
+      .insert(notes)
+      .values(note)
+      .returning({ id: notes.id })
+    return createdNote
   }
 
   async update(note: Note) {
