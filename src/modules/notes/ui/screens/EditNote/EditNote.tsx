@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import { RouteProp } from '@react-navigation/native'
-import { RootStackParamList } from '../../../../../type'
-import { Texto } from '../../../../common/Texto/Texto'
-import { getNoteById } from '../../application/note/get/getNote'
-import { useNotesRepository } from '../../providers/NotesRepository/useNotesRepository'
-import { Note } from '../../../../../db/schema'
-import { isUndefined } from '../../../../common/utilities/isUndefined'
+import { RootStackParamList } from '../../../../../../type'
+import { Texto } from '../../../../../common/Texto/Texto'
+import { getNoteById } from '../../../application/note/get/getNote'
+import { useNotesRepository } from '../../../providers/NotesRepository/useNotesRepository'
+import { Note } from '../../../../../../db/schema'
+import { isUndefined } from '../../../../../common/utilities/isUndefined'
 import FontAwesome from '@expo/vector-icons/FontAwesome'
+import { Header } from './_components/Header'
 
 import {
   KeyboardAvoidingView,
@@ -17,11 +18,10 @@ import {
   Keyboard,
 } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { Layout } from '../../../../common/Layout/Layout'
-import { Header } from '../../_components/Header/Header'
-import theme from '../../../../theme'
-import { updateNote } from '../../application/note/update/updateNote'
-import { useNotes } from '../../providers/Notes/useNotes'
+import { Layout } from '../../../../../common/Layout/Layout'
+import theme from '../../../../../theme'
+import { updateNote } from '../../../application/note/update/updateNote'
+import { useNotes } from '../../../providers/Notes/useNotes'
 
 interface Props {
   route: RouteProp<RootStackParamList, 'EditNote'>

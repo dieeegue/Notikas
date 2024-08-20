@@ -1,17 +1,17 @@
 import React from 'react'
-import theme from '../../../../theme'
+import theme from '../../../../../../theme'
+import { Texto } from '../../../../../../common/Texto/Texto'
 import { View, StyleSheet, Pressable } from 'react-native'
-import { Texto } from '../../../../common/Texto/Texto'
 import Ionicons from '@expo/vector-icons/Ionicons'
 import MaterialIcons from '@expo/vector-icons/MaterialIcons'
 import { useNavigation } from '@react-navigation/native'
-import { RootStackNavigationProp } from '../../../../../type'
+import { RootStackNavigationProp } from '../../../../../../../type'
 
 interface Props {
   loadNotes: () => void
 }
 
-export const MainHeader: React.FC<Props> = ({ loadNotes }) => {
+export const Header: React.FC<Props> = ({ loadNotes }) => {
   const navigation = useNavigation<RootStackNavigationProp>()
 
   const handlePressMenu = () => {
@@ -71,7 +71,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'flex-start',
     alignItems: 'center',
-    flexGrow: 1,
   },
   menuButton: {
     display: 'flex',

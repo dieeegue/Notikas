@@ -1,10 +1,10 @@
 import React from 'react'
-import theme from '../../../../theme'
+import theme from '../../../../../../theme'
 import { View, StyleSheet, Pressable } from 'react-native'
 import MaterialIcons from '@expo/vector-icons/MaterialIcons'
-import { Texto } from '../../../../common/Texto/Texto'
+import { Texto } from '../../../../../../common/Texto/Texto'
 import { useNavigation } from '@react-navigation/native'
-import { RootStackNavigationProp } from '../../../../../type'
+import { RootStackNavigationProp } from '../../../../../../../type'
 
 export const Header = () => {
   const navigation = useNavigation<RootStackNavigationProp>()
@@ -36,7 +36,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'flex-start',
     alignItems: 'center',
-    flexGrow: 1,
   },
   headerContainer: {
     display: 'flex',

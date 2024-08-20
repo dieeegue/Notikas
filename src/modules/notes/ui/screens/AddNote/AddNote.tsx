@@ -1,7 +1,6 @@
 import { StatusBar } from 'expo-status-bar'
-import { Layout } from '../../../../common/Layout/Layout'
-import { Header } from '../../_components/Header/Header'
-import { Texto } from '../../../../common/Texto/Texto'
+import { Layout } from '../../../../../common/Layout/Layout'
+import { Texto } from '../../../../../common/Texto/Texto'
 import {
   View,
   StyleSheet,
@@ -11,21 +10,22 @@ import {
   KeyboardAvoidingView,
   ScrollView,
 } from 'react-native'
-import theme, { FileColor } from '../../../../theme'
+import theme, { FileColor } from '../../../../../theme'
 import { FontAwesome, MaterialCommunityIcons } from '@expo/vector-icons'
 import React, { useEffect, useState } from 'react'
 import Animated, { ZoomIn } from 'react-native-reanimated'
 import { Field, FieldProps, Formik, FormikErrors } from 'formik'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import * as Yup from 'yup'
-import { getColorOptions } from '../../domain/services/getColorOptions'
-import { ColorOption } from '../../domain/models/ColorOption'
-import { checkedButton, checkedCircle, circleInput } from '../styles/styles'
-import { createNote } from '../../application/note/create/createNote'
-import { useNotesRepository } from '../../providers/NotesRepository/useNotesRepository'
-import { useNotes } from '../../providers/Notes/useNotes'
+import { getColorOptions } from '../../../domain/services/getColorOptions'
+import { ColorOption } from '../../../domain/models/ColorOption'
+import { checkedButton, checkedCircle, circleInput } from '../../styles/styles'
+import { createNote } from '../../../application/note/create/createNote'
+import { useNotesRepository } from '../../../providers/NotesRepository/useNotesRepository'
+import { useNotes } from '../../../providers/Notes/useNotes'
 import { useNavigation } from '@react-navigation/native'
-import { RootStackNavigationProp } from '../../../../../type'
+import { RootStackNavigationProp } from '../../../../../../type'
+import { Header } from './_components/Header'
 
 interface FormValues {
   fileType: string
