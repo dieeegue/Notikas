@@ -126,6 +126,7 @@ const styles = StyleSheet.create({
   },
   contentInput: {
     fontSize: 16,
+    fontFamily: theme.fonts.montserratRegular,
   },
   bottomButton: {
     display: 'flex',
