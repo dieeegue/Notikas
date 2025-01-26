@@ -14,9 +14,9 @@ interface Props {
 export const Header: React.FC<Props> = ({ loadNotes }) => {
   const navigation = useNavigation<RootStackNavigationProp>()
 
-  const handlePressMenu = () => {
-    loadNotes()
-  }
+  // const handlePressMenu = () => {
+  //   loadNotes()
+  // }
 
   const handlePressAdd = () => {
     navigation.navigate('AddNote')
@@ -52,13 +52,13 @@ export const Header: React.FC<Props> = ({ loadNotes }) => {
             overflow: 'hidden',
           }}
         >
-          <Pressable
+          {/* <Pressable
             android_ripple={{ color: theme.colors.primary }}
             style={styles.menuButton}
             onPress={handlePressMenu}
           >
             <Ionicons name="menu" size={23} />
-          </Pressable>
+          </Pressable> */}
         </View>
       </View>
     </View>

@@ -32,6 +32,7 @@ export const EditNote: React.FC<Props> = ({ route }) => {
   const { notesRepository } = useNotesRepository()
   const { loadNotes } = useNotes()
 
+  const [height, setHeight] = useState<number>(40)
   const [currentNote, setCurrentNote] = useState<Note | undefined>(undefined)
   const [content, setContent] = useState<string | undefined>(undefined)
   const [title, setTitle] = useState<string | undefined>(undefined)
@@ -79,10 +80,15 @@ export const EditNote: React.FC<Props> = ({ route }) => {
         <Layout>
           <Header />
           <TextInput
-            style={styles.titleInput}
+            style={[styles.titleInput, { height }]}
+            multiline
             placeholder="Ponle un título a la nota"
-            onChangeText={setTitle}
             value={title}
+            onChangeText={setTitle}
+            onContentSizeChange={(event) => {
+              const contentHeight = event.nativeEvent.contentSize.height
+              setHeight(contentHeight < 40 ? 40 : contentHeight)
+            }}
           />
           <ScrollView
             showsVerticalScrollIndicator={false}
@@ -115,7 +121,7 @@ export const EditNote: React.FC<Props> = ({ route }) => {
 const styles = StyleSheet.create({
   titleInput: {
     fontFamily: theme.fonts.montserratBold,
-    fontSize: 24,
+    fontSize: 32,
     marginBottom: 16,
   },
   contentInput: {
